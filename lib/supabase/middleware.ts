@@ -47,6 +47,7 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
 
+  // This is where it could decide what urls are login pretected
   if (
     request.nextUrl.pathname !== "/" &&
     !user &&
