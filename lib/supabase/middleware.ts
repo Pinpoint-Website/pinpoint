@@ -49,8 +49,8 @@ export async function updateSession(request: NextRequest) {
 
   // This is where it could decide what urls are login pretected
   if (
-    (request.nextUrl.pathname !== "/"
-      && request.nextUrl.pathname !== "/post") &&
+    request.nextUrl.pathname !== "/" &&
+    // request.nextUrl.pathname !== "/post" && ----- uncomment to make the '/post' url not login protected
     !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth")
