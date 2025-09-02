@@ -1,5 +1,4 @@
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import { formatDate } from "@/lib/format-date";
 import { notFound } from 'next/navigation';
 import BackButton from '@/components/buttons/back-button';
@@ -16,14 +15,6 @@ interface PostPageProps {
 export default async function PostPage({ params } : PostPageProps ) {
     const supabase = await createClient();
     const postId = (await params).id; // idk the build said i should do it this way
-
-    // get the user
-    const { data: {user} } = await supabase.auth.getUser();
-
-    // Handle case where user is not logged in
-    if (!user) {
-        return redirect('/login')
-    }
 
     // get the post and its details and display them
     // gemini said it's faster and more reliable to just re-query compared to passing the data from the post-display on the fyp
