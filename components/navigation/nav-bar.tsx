@@ -1,8 +1,8 @@
 // THIS IS A SERVER COMPONENT. If we want interactible things through this component we'll need to make it a client component.
 import { createClient } from "@/utils/supabase/server";
-import { AuthButton } from "./auth-button";
-import { PostButton } from "./post-button";
-import { LogoutButton } from "./logout-button";
+import { AuthButton } from "../buttons/auth-button";
+import { PostButton } from "../buttons/post-button";
+import { LogoutButton } from "../buttons/logout-button";
 
 // This assumes that it's put as the immedate child of the parent element of the whole page.
 export async function NavBar() {

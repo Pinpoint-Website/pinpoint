@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { NavBar } from "@/components/nav-bar";
+import { NavBar } from "@/components/navigation/nav-bar";
 import { Posts } from "@/components/posts";
 
 export default function Home() {

@@ -1,8 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { formatDate } from "./format-date";
+import { formatDate } from "@/lib/format-date";
 import { notFound } from 'next/navigation';
-import BackButton from '@/components/back-button';
+import BackButton from '@/components/buttons/back-button';
 
 // we need to do it like this to get the id from the redirect
 // while not strictly necessary for just one thing (for now it's just id), it could help down the road if we add different stuff like categories
@@ -46,7 +46,7 @@ export default async function PostPage({ params } : PostPageProps ) {
 
                 {/* Post Title */}
                 <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
-                {post.short_desc}
+                    {post.short_desc}
                 </h1>
                 
                 {/* Post Metadata */}
@@ -71,7 +71,7 @@ export default async function PostPage({ params } : PostPageProps ) {
 
                 {/* Post Body */}
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed whitespace-pre-wrap">
-                {post.long_desc}
+                    {post.long_desc}
                 </p>
 
             </div>
