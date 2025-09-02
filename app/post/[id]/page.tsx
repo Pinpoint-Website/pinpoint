@@ -37,7 +37,7 @@ export default async function PostPage({ params } : PostPageProps ) {
     const formattedDate = formatDate(post.created_at);
 
     return (
-        <div className="bg-gray-100 min-h-screen font-sans antialiased text-gray-800 p-4 sm:p-8 flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
             {/* Container for the post content */}
             <div className="bg-white rounded-xl shadow-lg p-6 sm:p-10 w-full max-w-4xl mx-auto">
                 
