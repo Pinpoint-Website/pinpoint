@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { notFound } from 'next/navigation';
 import { formatDate } from "@/lib/format-date";
 import Link from "next/link";
+import { NavBarForMyPosts } from "@/components/navigation/nav-bar-my-posts";
 
 interface MyPostsPage {
     params: {
@@ -35,24 +36,26 @@ export default async function MyPosts({ params } : MyPostsPage) {
     }
 
     return (
-        <div className="max-w-4xl mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-6">User's Posts</h1>
-            <ul className="space-y-4">
-                {posts.map((post) => (
-                    <li key={post.short_desc} className="p-4 rounded-md shadow-sm bg-gray-800">
-                        {/* Wrap the content with the Link component */}
-                        <Link href={`/post/${post.id}`} className="block">
-                            <h2 className="text-xl font-semibold mb-2">{post.short_desc}</h2>
-                            <p className="text-gray-400 text-sm">
-                                Created: {formatDate(post.created_at)}
-                            </p>
-                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${post.is_public ? 'bg-green-600 text-green-100' : 'bg-red-600 text-red-100'}`}>
-                                {post.is_public ? 'Public' : 'Private'}
-                            </span>
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+        <div className="mx-auto p-4 min-w-screen">
+            <NavBarForMyPosts />
+            <div className="flex flex-col items-center justify-center" >
+                 <ul className="space-y-4 w-1/2">
+                    {posts.map((post) => (
+                        <li key={post.short_desc} className="p-4 rounded-md shadow-sm bg-gray-800">
+                            {/* Wrap the content with the Link component */}
+                            <Link href={`/post/${post.id}`} className="block">
+                                <h2 className="text-xl font-semibold mb-2">{post.short_desc}</h2>
+                                <p className="text-gray-400 text-sm">
+                                    Created: {formatDate(post.created_at)}
+                                </p>
+                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${post.is_public ? 'bg-green-600 text-green-100' : 'bg-red-600 text-red-100'}`}>
+                                    {post.is_public ? 'Public' : 'Private'}
+                                </span>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }
