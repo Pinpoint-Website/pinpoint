@@ -5,13 +5,13 @@ import { PostData } from "@/lib/types";
 import { updatePost } from "@/lib/update-post";
 import { PostDataAndId } from '@/lib/types'
 
-export default function EditPostForm({ shortDesc, longDesc, isPublic, id } : PostDataAndId) {
+export default function EditPostForm({ shortDesc, longDesc, isPublic, id, creator } : PostDataAndId) {
     // so first we're gonna set the data beforehand 
     const [formData, setFormData] = useState<PostData>({
         shortDesc,
         longDesc,
         isPublic,
-        creator: 0, // random number it doesn't really matter
+        creator, // we don't wanna get the creator based off of the user accessing it
     });
 
     // handle any change wether it's a input element or text element
@@ -38,8 +38,8 @@ export default function EditPostForm({ shortDesc, longDesc, isPublic, id } : Pos
         e.preventDefault(); // prevent page reload after submit
         await updatePost(id, formData); // this is the server action (this is where the 'creator' id is gotten and written to the db)
         // Update the data on the page
-        const {shortDesc, longDesc, isPublic} = formData;
-        setFormData({ shortDesc, longDesc, isPublic, creator: 0 });
+        const {shortDesc, longDesc, isPublic, creator} = formData;
+        setFormData({ shortDesc, longDesc, isPublic, creator });
     };
 
     // create the form

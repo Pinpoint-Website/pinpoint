@@ -3,16 +3,17 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { PostData } from "@/lib/types";
+import { redirect } from "next/navigation";
 
 export async function createPost(formData: PostData) {
   const supabase = await createClient();
-  const { data: { user }, error: userError } = await supabase.auth.getUser(); // ignore the red squiggily here
+  const { data: { user }, error: userError } = await supabase.auth.getUser(); 
 
   // Handle case where error occurs
   // type script really want's to make sure that user exists so you actually need this or there'll be a red squiggly line when you access anything within 'user'
   if (userError || !user) {
     console.error("User not authenticated:", userError);
-    return { error: "User is not authenticated" };
+    return redirect("/auth/login");
   }
 
   // insert the data
