@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { notFound } from 'next/navigation';
 import { formatDate } from "@/lib/format-date";
+import Link from "next/link";
 
 interface MyPostsPage {
     params: {
@@ -16,7 +17,7 @@ export default async function MyPosts({ params } : MyPostsPage) {
     // Use .eq() to filter for posts where the 'creator' column matches the userId.
     const { data: posts, error } = await supabase
         .from("posts")
-        .select("short_desc, created_at, is_public") // Select only the necessary columns
+        .select("short_desc, created_at, is_public, id") // Select only the necessary columns
         .eq("creator", userId);
 
     if (error || !posts) {
@@ -39,13 +40,16 @@ export default async function MyPosts({ params } : MyPostsPage) {
             <ul className="space-y-4">
                 {posts.map((post) => (
                     <li key={post.short_desc} className="p-4 rounded-md shadow-sm bg-gray-800">
-                        <h2 className="text-xl font-semibold mb-2">{post.short_desc}</h2>
-                        <p className="text-gray-400 text-sm">
-                            Created: {formatDate(post.created_at)}
-                        </p>
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${post.is_public ? 'bg-green-600 text-green-100' : 'bg-red-600 text-red-100'}`}>
-                            {post.is_public ? 'Public' : 'Private'}
-                        </span>
+                        {/* Wrap the content with the Link component */}
+                        <Link href={`/post/${post.id}`} className="block">
+                            <h2 className="text-xl font-semibold mb-2">{post.short_desc}</h2>
+                            <p className="text-gray-400 text-sm">
+                                Created: {formatDate(post.created_at)}
+                            </p>
+                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${post.is_public ? 'bg-green-600 text-green-100' : 'bg-red-600 text-red-100'}`}>
+                                {post.is_public ? 'Public' : 'Private'}
+                            </span>
+                        </Link>
                     </li>
                 ))}
             </ul>

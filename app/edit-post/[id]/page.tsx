@@ -3,6 +3,7 @@ import EditPostForm from "@/components/forms/edit-post-form";
 import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
+import { NavBar } from "@/components/navigation/nav-bar";
 
 interface EditPostPage {
     params: {
@@ -34,12 +35,15 @@ export default async function EditPost({ params } : EditPostPage) {
     }
 
     return (
-        <EditPostForm 
-            shortDesc={ post?.short_desc } 
-            longDesc={ post?.long_desc } 
-            isPublic={ post?.is_public } 
-            creator={ post.creator } 
-            id={ postId }
-        />
+        <div className="min-h-screen">
+            <NavBar />
+            <EditPostForm 
+                shortDesc={ post?.short_desc } 
+                longDesc={ post?.long_desc } 
+                isPublic={ post?.is_public } 
+                creator={ post.creator } 
+                id={ postId }
+            />
+        </div>
     );
 }

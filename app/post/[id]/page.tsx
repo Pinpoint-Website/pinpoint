@@ -2,6 +2,9 @@ import { createClient } from "@/utils/supabase/server";
 import { formatDate } from "@/lib/format-date";
 import { notFound } from 'next/navigation';
 import BackButton from '@/components/buttons/back-button';
+import { getCurrentUserId } from "@/lib/get-user";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 // we need to do it like this to get the id from the redirect
 // while not strictly necessary for just one thing (for now it's just id), it could help down the road if we add different stuff like categories
@@ -25,7 +28,12 @@ export default async function PostPage({ params } : PostPageProps ) {
         notFound();
     }
 
+    // format the date
     const formattedDate = formatDate(post.created_at);
+
+    // get the user to compare them to the owner of this post
+    const userId = await getCurrentUserId();
+    const isOwner = userId == post?.creator;
 
     return (
         <div className="min-h-screen flex items-center justify-center">
@@ -34,6 +42,15 @@ export default async function PostPage({ params } : PostPageProps ) {
                 
                 {/* Go Back button */}
                 <BackButton />
+
+                {/* Conditional rendering for the edit button */}
+                {isOwner && (
+                    <div className="flex justify-end mb-4">
+                        <Button asChild size="lg">
+                            <Link href={`/edit-post/${post.id}`}>Edit Post</Link>
+                        </Button>
+                    </div>
+                )}
 
                 {/* Post Title */}
                 <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
