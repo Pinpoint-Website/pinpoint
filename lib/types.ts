@@ -1,5 +1,5 @@
 export type PostProps = {
-    postId: number;
+    postId: string;
 }
 
 export type PostData = {
