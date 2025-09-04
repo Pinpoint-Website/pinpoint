@@ -1,7 +1,7 @@
 "use client"; // This is now a client component
 
 import { useState } from "react";
-import { createPost } from "@/lib/create-post"; // Import the server action
+import { createPost } from "@/lib/actions/create-post"; // Import the server action
 import { PostData } from "@/lib/types";
 
 export default function CreatePostForm() {

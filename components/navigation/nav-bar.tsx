@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { AuthButton } from "../buttons/auth-button";
 import { MyPostsButton } from "../buttons/my-posts-button";
 import { LogoutButton } from "../buttons/logout-button";
+import { LikedPostsButton } from "../buttons/liked-posts-button";
 
 // This assumes that it's put as the immedate child of the parent element of the whole page.
 export async function NavBar() {
@@ -19,6 +20,9 @@ export async function NavBar() {
     // Show the authentication buttons when they're not signed in
     return user ? (
         <div className="w-full flex justify-end p-4">
+            <div className="mx-4">
+                <LikedPostsButton />
+            </div>
             <div className="mx-4">
                 <MyPostsButton />
             </div>

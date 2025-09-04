@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { PostData } from "@/lib/types";
-import { updatePost } from "@/lib/update-post";
+import { updatePost } from "@/lib/actions/update-post";
 import { PostDataAndId } from '@/lib/types'
 
 export default function EditPostForm({ shortDesc, longDesc, isPublic, id, creator } : PostDataAndId) {
