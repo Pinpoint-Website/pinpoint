@@ -22,6 +22,8 @@ export function SignUpForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,14 +42,20 @@ export function SignUpForm({
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      // add all the basic content to the user's database entry using the built-in signup function
+      const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/protected`,
+          // Gemini helped me with this, it said it was the better way of doing things
+          data: {
+            full_name: name, // Passed to the database trigger as raw_user_meta_data
+            user_name: username, // Passed to the database trigger as raw_user_meta_data
+          },
         },
       });
-      if (error) throw error;
+      if (signUpError) throw signUpError;
       router.push("/auth/sign-up-success");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
@@ -67,6 +75,23 @@ export function SignUpForm({
           <form onSubmit={handleSignUp}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <Label htmlFor="name">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="MyEpicUsername"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
