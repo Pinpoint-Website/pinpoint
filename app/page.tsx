@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="space-y-12">
       <section className="text-center space-y-4">
-        <h1 className="heading-1 text-balance">Welcome to CollabBoard</h1>
+        <h1 className="heading-1 text-balance">Welcome to Pinpoint</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Share your ideas, connect with others, and discover amazing collaborations
         </p>
