@@ -1,8 +1,14 @@
-"use client"; // This is now a client component
+"use client";
 
 import { useState } from "react";
-import { createPost } from "@/lib/actions/create-post"; // Import the server action
+import { createPost } from "@/lib/actions/create-post";
 import { PostData } from "@/lib/types";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function CreatePostForm() {
   const [formData, setFormData] = useState<PostData>({
@@ -12,9 +18,8 @@ export default function CreatePostForm() {
     creator: 0,
   });
 
-  // handle any change wether it's a input element or text element
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -23,51 +28,59 @@ export default function CreatePostForm() {
     }));
   };
 
-  // this needs to be seperate from the handleChange becuse it uses '.checked'
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setFormData((prev) => ({
-      ...prev,
-      isPublic: e.target.checked,
-    })
-  );
-
-  // this puts all the data into the database
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // prevent page reload after submit
-    await createPost(formData); // this is the server action (this is where the 'creator' id is gotten and written to the db)
-    // Clear the data ig (we don't really need to since it's gonna get overwritten but whateva)
+    e.preventDefault();
+    await createPost(formData);
     setFormData({ shortDesc: "", longDesc: "", isPublic: false, creator: 0 });
   };
 
-  // create the form
   return (
-    <form onSubmit={handleSubmit} className="p-4">
-      <input
-        name="shortDesc"
-        type="text"
-        value={formData.shortDesc} // Have the data be what the variable already has (need to make it so that it's what the user already put in there)
-        onChange={handleChange}
-        placeholder="Type short description here"
-      />
-      <input
-        name="longDesc"
-        type="text"
-        value={formData.longDesc} // Control the component
-        onChange={handleChange}
-        placeholder="Type long description here"
-      />
-      <input
-        name="isPublic"
-        type="checkbox"
-        checked={formData.isPublic} // Control the component
-        onChange={handleCheckboxChange}
-      />
-      <button
-        type="submit"
-        className="ml-4 bg-blue-500 text-white px-3 py-1 rounded"
-      >
-        Create Post
-      </button>
-    </form>
+    <Card className="max-w-2xl">
+      <form onSubmit={handleSubmit} className="contents">
+        <CardHeader>
+          <CardTitle>Create post</CardTitle>
+          <CardDescription>Fill in the details for your new post.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-6">
+          <div className="grid gap-2">
+            <Label htmlFor="shortDesc">Short description</Label>
+            <Input
+              id="shortDesc"
+              name="shortDesc"
+              type="text"
+              value={formData.shortDesc}
+              onChange={handleChange}
+              placeholder="e.g. Looking to collaborate on a Next.js app"
+            />
+            <p className="text-xs text-muted-foreground">A concise summary of your post.</p>
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="longDesc">Details</Label>
+            <Textarea
+              id="longDesc"
+              name="longDesc"
+              value={formData.longDesc}
+              onChange={handleChange}
+              placeholder="Share more context, goals, and any relevant info..."
+            />
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="isPublic"
+              checked={formData.isPublic}
+              onCheckedChange={(checked) =>
+                setFormData((prev) => ({ ...prev, isPublic: checked === true }))
+              }
+            />
+            <Label htmlFor="isPublic">Make this post public</Label>
+          </div>
+        </CardContent>
+        <CardFooter className="justify-end">
+          <Button type="submit">Create Post</Button>
+        </CardFooter>
+      </form>
+    </Card>
   );
 }
