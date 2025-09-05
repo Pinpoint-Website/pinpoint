@@ -36,7 +36,7 @@ export default function EditPostForm({ shortDesc, longDesc, isPublic, id, creato
   };
 
   return (
-    <Card className="max-w-2xl">
+    <Card className="max-w-2xl mx-auto">
       <form onSubmit={handleSubmit} className="contents">
         <CardHeader>
           <CardTitle>Edit post</CardTitle>
