@@ -35,7 +35,7 @@ export default function CreatePostForm() {
   };
 
   return (
-    <Card className="max-w-2xl">
+    <Card className="max-w-2xl mx-auto">
       <form onSubmit={handleSubmit} className="contents">
         <CardHeader>
           <CardTitle>Create post</CardTitle>
