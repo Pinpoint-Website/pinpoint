@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import LikeButton from "@/components/buttons/like-button";
+import ViewTracker from "@/components/logic/view-tracker";
 
 // Defines the expected structure for the page's parameters, specifically a dynamic 'id' from the URL.
 interface PostPageProps {
@@ -30,39 +31,24 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
-  // --- View Count Logic ---
-  // Increments the 'num_interested' count for the post.
-  const newInterestedCount = (post.num_interested || 0) + 1;
-  
-  // Updates the post with the new view count in the database.
-  const { data: updatedPost, error: updateError } = await supabase
-    .from("posts")
-    .update({ num_interested: newInterestedCount })
-    .eq("id", postId)
-    .select()
-    .single();
-  
-  // Logs any errors during the update but allows the page to render.
-  if (updateError) {
-    console.error('Error updating interested count:', updateError);
-  }
-
-  // Uses the updated data if the update was successful, otherwise falls back to the original post data.
-  const finalPost = updatedPost || post;
-
-  // Formats the post's creation date for display.
-  const formattedDate = formatDate(finalPost.created_at);
-
   // --- User and Ownership Check ---
   // Fetches the current user's ID to determine if they are the post's creator.
   const userId = await getCurrentUserId();
-  const isOwner = userId === finalPost?.creator;
+  const isOwner = userId === post?.creator;
+
+  // if the page is marked as not public, then it should return a 404 page unless they're the owner
+  if (!isOwner && !post?.is_public) {
+    notFound();
+  }
+
+  // Formats the post's creation date for display.
+  const formattedDate = formatDate(post.created_at);
 
   // Fetches the creator's username from the 'users' table for display.
   const { data: user, error: userError } = await supabase
     .from("users")
     .select("name,username")
-    .eq("id", finalPost?.creator)
+    .eq("id", post?.creator)
     .single();
     
   // Logs an error if the user profile cannot be found.
@@ -75,8 +61,8 @@ export default async function PostPage({ params }: PostPageProps) {
   const { data: likeData, error: likeDataError } = await supabase
     .from("user_like_join")
     .select("user_id,post_id")
-    .eq("user_id", finalPost?.creator)
-    .eq("post_id", finalPost?.id)
+    .eq("user_id", post?.creator)
+    .eq("post_id", post?.id)
     .single();
     
   // Checks for unexpected errors, ignoring the specific 'not found' error (PGRST116).
@@ -94,18 +80,19 @@ export default async function PostPage({ params }: PostPageProps) {
         {/* Renders a button to go back to the previous page. */}
         <BackButton />
       </div>
+      <ViewTracker postId={postId} />
       
       {/* Container for the post content, using a Card component. */}
       <Card className="card-hover">
         <CardContent className="p-6 sm:p-8">
           <div className="flex items-start justify-between gap-4 mb-2">
             {/* Post Title */}
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{finalPost.short_desc}</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{post.short_desc}</h1>
             
             {/* Conditionally renders an "Edit" button if the current user is the post's creator. */}
             {isOwner && (
               <Button asChild size="sm">
-                <Link href={`/edit-post/${finalPost.id}`}>Edit</Link>
+                <Link href={`/edit-post/${post.id}`}>Edit</Link>
               </Button>
             )}
           </div>
@@ -118,19 +105,19 @@ export default async function PostPage({ params }: PostPageProps) {
             <span>•</span>
             <span>
               {/* Displays the view count. */}
-              {finalPost.num_interested} {finalPost.num_interested === 1 ? 'View' : 'Views'}
+              {post?.num_interested} {post?.num_interested === 1 ? 'View' : 'Views'}
             </span>
             {/* A client component button to handle liking/unliking the post. */}
-            <LikeButton postId={finalPost?.id} initialLikes={finalPost?.likes} isLiked={hasLiked} userId={userId} />
+            <LikeButton postId={post?.id} initialLikes={post?.likes} isLiked={hasLiked} userId={userId} />
             {/* Displays a badge indicating if the post is Public or Private. */}
-            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${finalPost.is_public ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'}`}>
-              {finalPost.is_public ? 'Public' : 'Private'}
+            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${post?.is_public ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'}`}>
+              {post?.is_public ? 'Public' : 'Private'}
             </span>
           </div>
           
           {/* Post's main content with preserved line breaks. */}
           <p className="text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
-            {finalPost.long_desc}
+            {post?.long_desc}
           </p>
         </CardContent>
       </Card>
