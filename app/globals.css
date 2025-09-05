@@ -68,11 +68,11 @@
   }
 
   .card-hover {
-    @apply transition-all duration-200 hover:shadow-lg hover:scale-[1.02];
+    @apply transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
   }
 
   .nav-link {
-    @apply px-4 py-2 rounded-md transition-colors duration-200 hover:bg-secondary;
+    @apply px-3 py-2 rounded-md transition-colors duration-200 hover:bg-secondary text-foreground/80;
   }
 
   .button-primary {
