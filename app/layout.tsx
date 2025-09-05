@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { NavBar } from "@/components/navigation/nav-bar";
+import { Footer } from "@/components/navigation/footer";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -10,8 +11,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "CollabBoard",
+  description: "Share your ideas, connect with others, and discover collaborations.",
 };
 
 const geistSans = Geist({
@@ -28,16 +29,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.className} antialiased min-h-screen flex flex-col`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-        >
-          <div className="flex min-h-screen flex-col bg-gradient-to-b from-background to-secondary/20">
-            <NavBar />
-            <main className="flex-1 container-custom py-8">
-              {children}
-            </main>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="relative min-h-screen flex flex-col">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,theme(colors.primary/10),transparent_50%),linear-gradient(to_bottom,theme(colors.background),theme(colors.secondary/20))]" />
+            <div className="relative z-10 flex min-h-screen flex-col">
+              <NavBar />
+              <main className="flex-1 container-custom py-8">
+                {children}
+              </main>
+              <Footer />
+            </div>
           </div>
         </ThemeProvider>
       </body>
