@@ -27,14 +27,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased`}>
+      <body className={`${geistSans.className} antialiased min-h-screen flex flex-col`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange
         >
-          {children}
+          <div className="flex min-h-screen flex-col bg-gradient-to-b from-background to-secondary/20">
+            <NavBar />
+            <main className="flex-1 container-custom py-8">
+              {children}
+            </main>
+          </div>
         </ThemeProvider>
       </body>
     </html>
