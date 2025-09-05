@@ -14,7 +14,7 @@ export default async function EditPost({ params } : EditPostPage) {
     const supabase = await createClient();
     // get the post based on it's id (the id is converted from a string to a number so that's why there's 'Number(params.id)' right there)
     // the '(await params)' thing is because of a next.js thing
-    const postId = Number((await params).id);
+    const postId = (await params).id;
     const { data: post, error } = await supabase.from('posts').select('short_desc,long_desc,num_interested,is_public,creator').eq('id', postId).single();
 
     // we need to check if the creator is the same as the current user
@@ -35,7 +35,6 @@ export default async function EditPost({ params } : EditPostPage) {
 
     return (
         <div className="min-h-screen">
-            <NavBar />
             <EditPostForm 
                 shortDesc={ post?.short_desc } 
                 longDesc={ post?.long_desc } 

@@ -1,17 +1,24 @@
+// components/buttons/logout-button.tsx
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
+import { Button } from '@/components/ui/button';
 
 export function LogoutButton() {
-  const router = useRouter();
-
-  const logout = async () => {
+    const router = useRouter();
     const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push("/auth/login");
-  };
 
-  return <Button onClick={logout}>Logout</Button>;
+    const handleLogout = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            // Handle error
+        }
+        // This forces a re-render of the current route, refreshing all Server Components
+        router.refresh();
+    };
+
+    return (
+        <Button onClick={handleLogout}>Logout</Button>
+    );
 }

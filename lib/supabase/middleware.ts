@@ -50,13 +50,14 @@ export async function updateSession(request: NextRequest) {
   // This is where it could decide what urls are login pretected
   // for example: request.nextUrl.pathname !== "/" && ----- you could add this to the below if statement to make the main page publicly accessible
   if (
+    request.nextUrl.pathname !== "/about" &&
     !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {
-    // no user, potentially respond by redirecting the user to the login page
+    // not an authenticated user, respond by redirecting the user to the about page
     const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
+    url.pathname = "/about";
     return NextResponse.redirect(url);
   }
 

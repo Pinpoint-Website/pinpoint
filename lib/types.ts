@@ -10,7 +10,7 @@ export type PostData = {
 };
 
 export type PostDataAndId = {
-    id: number
+    id: string
     shortDesc: string,
     longDesc: string,
     isPublic: boolean,

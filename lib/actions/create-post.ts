@@ -16,13 +16,13 @@ export async function createPost(formData: PostData) {
     return redirect("/auth/login");
   }
 
-  // insert the data
-  const { error } = await (await supabase).from("posts").insert({
+  // insert the data and get it's id
+  const { data, error } = await (await supabase).from("posts").insert({
     short_desc: formData.shortDesc,
     long_desc: formData.longDesc,
     is_public: formData.isPublic,
     creator: user.id
-  });
+  }).select('id').single();
 
   if (error) {
     // You can add more robust error handling here
@@ -33,5 +33,5 @@ export async function createPost(formData: PostData) {
   // This will clear the cache for the posts page, ensuring the new post appears.
   revalidatePath("/posts"); 
 
-  return { message: "Post created successfully." };
+  redirect(`/post/${data?.id}`);
 }

@@ -3,13 +3,15 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { redirectToPost } from "./redirect-to-post";
+import { redirect } from "next/navigation";
 
 // Assuming PostData is defined in your types library
 import { PostData } from "@/lib/types";
 
 // This function now takes the postId as a required parameter 
 // this was generated my gemini and based on 'create-post' as a template
-export async function updatePost(postIdNum: number, formData: PostData) {
+export async function updatePost(postId: string, formData: PostData) {
   const supabase = await createClient();
   const { data: { user }, error: userError } = await supabase.auth.getUser();
 
@@ -18,8 +20,6 @@ export async function updatePost(postIdNum: number, formData: PostData) {
     return { error: "User is not authenticated" };
   }
 
-  // need to turn the postId into a string because that's what supabase expects
-  const postId = String(postIdNum);
   // Use the update method and filter by the postId
   const { error } = await supabase
     .from("posts")
@@ -40,5 +40,6 @@ export async function updatePost(postIdNum: number, formData: PostData) {
   revalidatePath(`/posts/${postId}`); 
   revalidatePath("/posts");
 
-  return { message: "Post updated successfully." };
+  // go back by one page
+  redirect(`/post/${postId}`);
 }

@@ -54,7 +54,10 @@ export default async function PostPage({ params } : PostPageProps ) {
 
     // get the user to compare them to the owner of this post
     const userId = await getCurrentUserId();
-    const isOwner = userId == finalPost?.creator;
+    const isOwner = userId === finalPost?.creator;
+
+    console.log(userId);
+    console.log(finalPost?.creator);
 
     // get the users name and username
     const { data: user, error: userError } = await supabase.from("users").select("name,username").eq("id", finalPost?.creator).single();
