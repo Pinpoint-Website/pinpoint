@@ -11,51 +11,48 @@ interface MyPostsPage {
 }
 
 export default async function MyPosts({ params } : MyPostsPage) {
-    const supabase = await createClient();
-    const userId = (await params).id; // the console throws an error if you don't do it like this 
+  const supabase = await createClient();
+  const userId = (await params).id;
 
-    // From here on out this is gemini generated
-    // Use .eq() to filter for posts where the 'creator' column matches the userId.
-    const { data: posts, error } = await supabase
-        .from("posts")
-        .select("short_desc, created_at, is_public, id") // Select only the necessary columns
-        .eq("creator", userId);
+  const { data: posts, error } = await supabase
+    .from("posts")
+    .select("short_desc, created_at, is_public, id")
+    .eq("creator", userId);
 
-    if (error || !posts) {
-        // If there's an error or no posts are found, show a 404 page
-        notFound();
-    }
-    
-    // Check if the posts array is empty to provide a specific message
-    if (posts.length === 0) {
-        return (
-            <div className="text-center p-8">
-                <p>No posts found for this user.</p>
-            </div>
-        );
-    }
+  if (error || !posts) {
+    notFound();
+  }
 
+  if (posts.length === 0) {
     return (
-        <div className="mx-auto p-4 min-w-screen">
-            <NavBarForMyPosts />
-            <div className="flex flex-col items-center justify-center" >
-                 <ul className="space-y-4 w-1/2">
-                    {posts.map((post) => (
-                        <li key={post.short_desc} className="p-4 rounded-md shadow-sm bg-gray-800">
-                            {/* Wrap the content with the Link component */}
-                            <Link href={`/post/${post.id}`} className="block">
-                                <h2 className="text-xl font-semibold mb-2">{post.short_desc}</h2>
-                                <p className="text-gray-400 text-sm">
-                                    Created: {formatDate(post.created_at)}
-                                </p>
-                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${post.is_public ? 'bg-green-600 text-green-100' : 'bg-red-600 text-red-100'}`}>
-                                    {post.is_public ? 'Public' : 'Private'}
-                                </span>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+      <div className="container-custom py-8">
+        <NavBarForMyPosts />
+        <div className="text-center p-8">
+          <p>No posts found for this user.</p>
         </div>
+      </div>
     );
+  }
+
+  return (
+    <div className="container-custom py-8">
+      <NavBarForMyPosts />
+      <h1 className="heading-2 mb-6">Your Posts</h1>
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <li key={post.id}>
+            <Link href={`/post/${post.id}`} className="block">
+              <div className="rounded-xl border bg-card p-4 shadow-sm card-hover">
+                <h2 className="font-semibold mb-1">{post.short_desc}</h2>
+                <p className="text-xs text-muted-foreground mb-2">Created: {formatDate(post.created_at)}</p>
+                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${post.is_public ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'}`}>
+                  {post.is_public ? 'Public' : 'Private'}
+                </span>
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

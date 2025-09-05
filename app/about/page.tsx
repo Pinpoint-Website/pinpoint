@@ -10,7 +10,7 @@ export default function AboutPage() {
           Bridging Innovation Gaps
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          CollabBoard connects businesses with real problems to entrepreneurs with innovative solutions
+          Pinpoint connects businesses with real problems to entrepreneurs with innovative solutions
         </p>
       </section>
 
@@ -107,7 +107,7 @@ export default function AboutPage() {
           Ready to Start Your Journey?
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Join CollabBoard today and be part of a community that&apos;s reshaping how entrepreneurs solve real business problems.
+          Join Pinpoint today and be part of a community that&apos;s reshaping how entrepreneurs solve real business problems.
         </p>
         <div className="flex gap-4 justify-center">
           <Button asChild>
