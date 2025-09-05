@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={`${geistSans.className} antialiased min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="relative min-h-screen flex flex-col">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,theme(colors.primary/10),transparent_50%),linear-gradient(to_bottom,theme(colors.background),theme(colors.secondary/20))]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.1),transparent_50%),linear-gradient(to_bottom,hsl(var(--background)),hsl(var(--secondary)/0.2))]" />
             <div className="relative z-10 flex min-h-screen flex-col">
               <NavBar />
               <main className="flex-1 container-custom py-8">
