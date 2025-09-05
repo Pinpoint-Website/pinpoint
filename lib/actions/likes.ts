@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "../supabase/server";
 
-export async function toggleLike(userId: string, postId: string, isLiked: boolean) {
+export async function toggleLike(userId: string | undefined, postId: string, isLiked: boolean) {
     const supabase = await createClient();
 
     // if a post is already liked, that means we're disliking which means we need to remove the like

@@ -8,7 +8,7 @@ interface LikeButtonProps {
     postId: string;
     initialLikes: number;
     isLiked: boolean;
-    userId: string; // we have to do this becuase of how getCurrentUser works, it can't garuentee that it'll get back to us with an id
+    userId: string | undefined; // we have to do this becuase of how getCurrentUser works, it can't garuentee that it'll get back to us with an id
 }
 
 export default function LikeButton({ postId, initialLikes, isLiked, userId }: LikeButtonProps) {

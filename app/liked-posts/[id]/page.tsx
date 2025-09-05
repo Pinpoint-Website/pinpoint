@@ -45,7 +45,6 @@ export default async function MyPosts({ params } : LikedPostsPageParams) {
 
   return (
     <div className="container-custom py-8">
-      <NavBarForMyPosts />
       <h1 className="heading-2 mb-6">Liked Posts</h1>
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {likedPosts.map((post) => (

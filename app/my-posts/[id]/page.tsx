@@ -26,7 +26,6 @@ export default async function MyPosts({ params } : MyPostsPage) {
   if (posts.length === 0) {
     return (
       <div className="container-custom py-8">
-        <NavBarForMyPosts />
         <div className="text-center p-8">
           <p>No posts found for this user.</p>
         </div>
@@ -36,7 +35,6 @@ export default async function MyPosts({ params } : MyPostsPage) {
 
   return (
     <div className="container-custom py-8">
-      <NavBarForMyPosts />
       <h1 className="heading-2 mb-6">Your Posts</h1>
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
