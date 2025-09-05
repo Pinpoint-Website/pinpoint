@@ -14,7 +14,7 @@ export async function NavBarForMyPosts() {
       <div className="container-custom h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <BackButton />
-          <Link href="/" className="font-semibold tracking-tight text-lg">CollabBoard</Link>
+          <Link href="/" className="font-semibold tracking-tight text-lg">Pinpoint</Link>
         </div>
         <div className="flex items-center gap-3">
           {user ? <LogoutButton /> : <AuthButton />}
