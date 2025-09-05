@@ -3,7 +3,6 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { redirectToPost } from "./redirect-to-post";
 import { redirect } from "next/navigation";
 
 // Assuming PostData is defined in your types library
