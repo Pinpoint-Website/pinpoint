@@ -11,7 +11,7 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "CollabBoard",
+  title: "Pinpoint",
   description: "Share your ideas, connect with others, and discover collaborations.",
 };
 
