@@ -8,17 +8,14 @@ import { createPersonalPage } from "@/lib/actions/create-personal-page";
 import { Button } from "../ui/button";
 
 export default function CreatePersonalPage() {
+    // State for text inputs
     const [formData, setFormData] = useState<PersonalPageData>({
         primaryRole: "",
         description: ""
     });
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); // prevent page reload
-        await createPersonalPage(formData); // todo make this a thing
-        const { primaryRole: p, description: d} = formData;
-        setFormData({ primaryRole: p, description: d});
-    };
+    // State for the selected file
+    const [file, setFile] = useState<File | null>(null);
 
     const handleTextChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -30,25 +27,74 @@ export default function CreatePersonalPage() {
         }));
     };
 
+    // Handler for file input changes
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        // 1. Create FormData object
+        const dataToSend = new FormData();
+        dataToSend.append("primaryRole", formData.primaryRole);
+        dataToSend.append("description", formData.description);
+        if (file) {
+            dataToSend.append("profilePhoto", file); // Use a consistent key name like "profilePhoto"
+        }
+
+        // 2. Call the server action with FormData
+        // We assume createPersonalPage will handle success/error redirection or messaging.
+        try {
+            await createPersonalPage(dataToSend);
+            // Reset form on success if needed
+            setFormData({ primaryRole: "", description: "" });
+            setFile(null);
+            // Clear file input visually (optional)
+            const fileInput = e.target.elements.namedItem("profilePhoto") as HTMLInputElement;
+            if (fileInput) fileInput.value = "";
+
+        } catch (error) {
+            console.error("Failed to create page:", error);
+            // Handle error display here
+        }
+    };
+
     return (
-        <Card className="max-w-2xl mx-auto">
-            <form onSubmit={handleSubmit} className="contents">
-                <Input 
+        <Card className="max-w-2xl mx-auto p-4 space-y-4"> {/* Added padding and spacing */}
+            <form onSubmit={handleSubmit} className="flex flex-col space-y-4"> {/* Made form flex column */}
+                <Input
                     id="primaryRole"
                     name="primaryRole"
                     type="text"
                     value={formData.primaryRole}
                     onChange={handleTextChange}
                     placeholder="Ex: Web Developer"
+                    required
                 />
-                <Input 
+                <Input
                     id="description"
                     name="description"
                     type="text"
                     value={formData.description}
                     onChange={handleTextChange}
                     placeholder="Ex: I've done many cool things"
+                    required
                 />
+                <div>
+                    <label htmlFor="profilePhoto" className="block text-sm font-medium mb-1">
+                        Profile Photo (Optional)
+                    </label>
+                    <Input
+                        id="profilePhoto"
+                        name="profilePhoto" // Name attribute for form element access
+                        type="file"
+                        accept="image/png, image/jpeg" // Restrict file types
+                        onChange={handleFileChange}
+                    />
+                </div>
                 <Button type="submit">Create Profile</Button>
             </form>
         </Card>
