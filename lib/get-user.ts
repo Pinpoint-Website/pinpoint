@@ -1,6 +1,7 @@
 import { createClient } from './supabase/server'; // Adjust the import path as needed
 import { redirect } from 'next/navigation';
 
+// IMPORTANT: WHEN YOU USE THIS YOU HAVE TO HAVE THE 'await' KEYWORD BEFORE CALLING THE FUNCTION
 export async function getCurrentUserId() {
   const supabase = await createClient();
   const { data: { user }, error } = await supabase.auth.getUser();

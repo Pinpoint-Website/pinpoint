@@ -1,4 +1,4 @@
-import { PostDisplay } from "./post-display";
+import { PostDisplay } from "./display-things/post-display";
 import { getFypPostIds } from "@/lib/post-utils"; 
 
 // This must be an async Server Component

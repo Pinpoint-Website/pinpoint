@@ -2,7 +2,6 @@ import { createClient } from "@/utils/supabase/server";
 import { notFound } from 'next/navigation';
 import { formatDate } from "@/lib/format-date";
 import Link from "next/link";
-import { NavBarForMyPosts } from "@/components/navigation/nav-bar-my-posts";
 
 interface MyPostsPage {
     params: {

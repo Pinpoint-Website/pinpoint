@@ -10,9 +10,18 @@ export type PostData = {
 };
 
 export type PostDataAndId = {
-    id: string
-    shortDesc: string,
-    longDesc: string,
-    isPublic: boolean,
-    creator: number
+  id: string
+  shortDesc: string,
+  longDesc: string,
+  isPublic: boolean,
+  creator: number
+}
+
+export type PersonalPageData = {
+  primaryRole: string,
+  description: string
+}
+
+export type PersonalPageProps = {
+  userId: string
 }
