@@ -8,6 +8,7 @@ export default async function NewPersonalPage() {
 
     // run a check to see if they already have a page, and if so then redirect them to there
     if (await hasProfile(userId)) {
+        console.log("ASDFASDFASDF");
         redirect(`/personal-page/${await getCurrentUserId()}`);
     } else {
         return (
