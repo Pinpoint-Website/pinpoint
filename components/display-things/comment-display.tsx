@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDate } from "@/lib/format-date";
 import CommentLikeButton from "@/components/buttons/comment-like-button";
+import Link from "next/link";
 
 interface Comment {
   id: string;
@@ -36,9 +37,12 @@ export default function CommentDisplay({ comments, userId }: CommentDisplayProps
           <CardContent className="p-4">
             <div className="flex items-start justify-between gap-4 mb-2">
               <div className="flex items-center gap-2">
-                <span className="font-medium text-sm">
+                <Link 
+                  href={`/personal-page/${comment.creator}`}
+                  className="font-medium text-sm hover:text-primary hover:underline transition-colors"
+                >
                   {comment.users?.username || "Unknown User"}
-                </span>
+                </Link>
                 <span className="text-muted-foreground text-xs">•</span>
                 <span className="text-muted-foreground text-xs">
                   {formatDate(comment.created_at)}
