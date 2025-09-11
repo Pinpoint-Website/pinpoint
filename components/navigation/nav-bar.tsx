@@ -5,6 +5,7 @@ import { MyPostsButton } from "../buttons/my-posts-button";
 import { LogoutButton } from "../buttons/logout-button";
 import { LikedPostsButton } from "../buttons/liked-posts-button";
 import { CreatePostButton } from "../buttons/create-post-button";
+import { MyPersonalPageButton } from "../buttons/personal-page-button";
 
 export async function NavBar() {
   const supabase = await createClient();
@@ -24,6 +25,7 @@ export async function NavBar() {
         <div className="flex items-center gap-3">
           {user ? (
             <>
+              <MyPersonalPageButton />
               <CreatePostButton />
               <LikedPostsButton />
               <MyPostsButton />
