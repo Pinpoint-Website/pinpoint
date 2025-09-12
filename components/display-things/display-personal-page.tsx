@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import Image from "next/image"; 
+import Image from "next/image";
 import ContactForm from "@/components/forms/contact-form";
 
 interface PersonalPageDisplayProps {
@@ -59,7 +59,7 @@ export async function PersonalPageDisplay({ userId }: PersonalPageDisplayProps) 
     const { data: urlData } = await (await supabase).storage
       .from("profile_photos") // Make sure this is your bucket name
       .getPublicUrl(personalPageData.photo_path);
-    
+
     publicImageUrl = urlData?.publicUrl || null;
   }
 
@@ -75,10 +75,10 @@ export async function PersonalPageDisplay({ userId }: PersonalPageDisplayProps) 
             {personalPageData.description}
           </p>
         </div>
-        
+
         {/* Contact form */}
         <div className="mt-8">
-          <ContactForm 
+          <ContactForm
             recipientEmail={userEmail || "user@example.com"}
             recipientName={userData?.name || userData?.username || "User"}
           />
@@ -92,8 +92,8 @@ export async function PersonalPageDisplay({ userId }: PersonalPageDisplayProps) 
             <Image
               src={publicImageUrl}
               alt="Profile photo"
-              fill={true} 
-              className="object-cover" 
+              fill={true}
+              className="object-cover"
             />
           </div>
         ) : (

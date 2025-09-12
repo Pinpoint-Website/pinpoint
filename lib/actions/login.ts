@@ -1,25 +1,25 @@
-"use server";
+'use server'
 
-import { revalidatePath } from 'next/cache';
-import { createClient } from '../supabase/server';
-import { redirect } from 'next/navigation';
+import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
+import { createClient } from '@/utils/supabase/server' // Adjust path if needed
 
-export async function login(formData: FormData) {
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-  
-  const supabase = await createClient();
+// This action takes strings, not FormData
+export async function login(email: string, password: string) {
+  const supabase = await createClient()
+
+  // Sign in with Supabase
   const { error } = await supabase.auth.signInWithPassword({
     email,
-    password
-  });
+    password,
+  })
 
+  // If Supabase returns an error, return it to the form component
   if (error) {
-    // You can handle this error more gracefully, for now we'll just throw it.
-    throw new Error(error.message);
+    return { error: 'Invalid email or password.' }
   }
 
-  // Revalidate the homepage cache and redirect to it
-  revalidatePath('/');
-  redirect('/');
+  // On success, revalidate and redirect
+  revalidatePath('/', 'layout')
+  redirect('/')
 }
