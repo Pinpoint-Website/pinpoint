@@ -9,7 +9,7 @@ export default async function PersonalPage({ params }: PersonalPageProps) {
 
   return (
     <div className="container-custom max-w-6xl">
-      <PersonalPageDisplay userId={userId} />
+      <PersonalPageDisplay givenUserId={userId} />
     </div>
   );
 }

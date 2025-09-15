@@ -1,4 +1,3 @@
-import { DeletePostButton } from "@/components/buttons/delete-post-button";
 import EditPostForm from "@/components/forms/edit-post-form";
 import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
@@ -46,7 +45,6 @@ export default async function EditPost({ params }: EditPostPage) {
         creator={post.creator}
         id={postId}
       />
-      <DeletePostButton postId={postId} />
     </div>
   );
 }

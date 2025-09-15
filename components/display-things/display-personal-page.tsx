@@ -1,19 +1,24 @@
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import ContactForm from "@/components/forms/contact-form";
+import { getCurrentUserId } from "@/lib/get-user";
+import { EditPersonalPageButton } from "../buttons/edit-personal-page-button";
 
 interface PersonalPageDisplayProps {
-  userId: string;
+  givenUserId: string;
 }
 
-export async function PersonalPageDisplay({ userId }: PersonalPageDisplayProps) {
+export async function PersonalPageDisplay({ givenUserId }: PersonalPageDisplayProps) {
   const supabase = createClient(); // No await needed here for standard @supabase/ssr setup
+  // get the  actual current user's id to see if they're the owner
+  const currUserId = await getCurrentUserId();
+  const isOwner = currUserId === givenUserId;
 
   // Update your query to include photo_path
   const { data: personalPageData, error } = await (await supabase)
     .from("personal_page")
     .select("description, primary_role, photo_path") // Add photo_path
-    .eq("id", userId)
+    .eq("id", givenUserId)
     .single();
 
   if (error) {
@@ -25,7 +30,7 @@ export async function PersonalPageDisplay({ userId }: PersonalPageDisplayProps) 
   const { data: userData, error: userError } = await (await supabase)
     .from("users")
     .select("name, username")
-    .eq("id", userId)
+    .eq("id", givenUserId)
     .single();
 
   if (userError) {
@@ -102,6 +107,11 @@ export async function PersonalPageDisplay({ userId }: PersonalPageDisplayProps) 
           </div>
         )}
       </div>
+      {isOwner ? (
+        <EditPersonalPageButton />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

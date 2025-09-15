@@ -49,7 +49,7 @@ export default function ContactForm({ recipientEmail, recipientName }: ContactFo
         setError(result.error || "Failed to send message");
       }
     } catch (err) {
-      setError("An unexpected error occurred:");
+      setError("An unexpected error occurred: " + (err as Error).message);
     } finally {
       setIsSubmitting(false);
     }
