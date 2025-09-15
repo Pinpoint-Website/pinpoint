@@ -24,7 +24,7 @@ export default function ContactForm({ recipientEmail, recipientName }: ContactFo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setError("All fields are required");
       return;
@@ -41,7 +41,7 @@ export default function ContactForm({ recipientEmail, recipientName }: ContactFo
         fromEmail: formData.email,
         message: formData.message
       });
-      
+
       if (result.success) {
         setSuccess(true);
         setFormData({ name: "", email: "", message: "" });
@@ -49,7 +49,7 @@ export default function ContactForm({ recipientEmail, recipientName }: ContactFo
         setError(result.error || "Failed to send message");
       }
     } catch (err) {
-      setError("An unexpected error occurred");
+      setError("An unexpected error occurred:");
     } finally {
       setIsSubmitting(false);
     }
@@ -78,7 +78,7 @@ export default function ContactForm({ recipientEmail, recipientName }: ContactFo
   return (
     <div className="bg-card border rounded-lg p-6">
       <h3 className="text-xl font-semibold mb-4">Contact {recipientName}</h3>
-      
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <Label htmlFor="name">Your Name</Label>
@@ -128,8 +128,8 @@ export default function ContactForm({ recipientEmail, recipientName }: ContactFo
           </div>
         )}
 
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           disabled={isSubmitting}
           className="w-full"
         >

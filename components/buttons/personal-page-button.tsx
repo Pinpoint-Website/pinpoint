@@ -7,7 +7,7 @@ export async function MyPersonalPageButton() {
   return (
     <div className="flex gap-2">
       <Button asChild size="lg" variant={"outline"}>
-        <Link href={`/personal-page/${userId}`}> Personal Page</Link>
+        <Link href={`/personal-page/${userId}`}>Personal Page</Link>
       </Button>
     </div>
   )

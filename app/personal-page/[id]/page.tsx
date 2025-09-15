@@ -6,7 +6,7 @@ interface PersonalPageProps {
 
 export default async function PersonalPage({ params }: PersonalPageProps) {
   const userId = (await params).id;
-  
+
   return (
     <div className="container-custom max-w-6xl">
       <PersonalPageDisplay userId={userId} />

@@ -16,7 +16,6 @@ export async function NavBar() {
   // Get the user's personal page if they have it
   const { data: personalPage } = await supabase.from("personal_page").select("id").eq("id", user?.id).single();
 
-  console.log("Personal page:", personalPage);
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container-custom h-16 flex items-center justify-between">
@@ -30,7 +29,7 @@ export async function NavBar() {
         <div className="flex items-center gap-3">
           {user ? (
             <>
-              {personalPage !== null ? (
+              {!personalPage ? (
                 <MyPersonalPageButton />
               ) : <CreatePersonalPageButton />}
               <CreatePostButton />
