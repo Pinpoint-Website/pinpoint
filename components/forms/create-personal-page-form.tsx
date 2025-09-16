@@ -52,8 +52,11 @@ export default function CreatePersonalPage() {
             // Reset form on success if needed
             setFormData({ primaryRole: "", description: "" });
             setFile(null);
-            // Clear file input visually (optional)
-            const fileInput = e.target.elements.namedItem("profilePhoto") as HTMLInputElement;
+            // // Clear file input visually (optional)
+            // const fileInput = e.target.elements.namedItem("profilePhoto") as HTMLInputElement;
+
+            // Clear file input visually (optional) - use currentTarget which is correctly typed as HTMLFormElement
+            const fileInput = e.currentTarget.elements.namedItem("profilePhoto") as HTMLInputElement | null;
             if (fileInput) fileInput.value = "";
 
         } catch (error) {

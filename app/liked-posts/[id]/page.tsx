@@ -5,9 +5,9 @@ import Link from "next/link";
 import { NavBarForMyPosts } from "@/components/navigation/nav-bar-my-posts";
 
 interface LikedPostsPageParams {
-    params: {
-        id: string
-    }
+  params: Promise<{
+    id: string
+  }>
 }
 
 export default async function MyPosts({ params } : LikedPostsPageParams) {

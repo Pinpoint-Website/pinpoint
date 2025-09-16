@@ -35,6 +35,7 @@ export default function CommentForm({ postId }: CommentFormProps) {
       }
     } catch (err) {
       setError("An unexpected error occurred");
+      console.log(err);
     } finally {
       setIsSubmitting(false);
     }

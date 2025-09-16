@@ -4,9 +4,9 @@ import { formatDate } from "@/lib/format-date";
 import Link from "next/link";
 
 interface MyPostsPage {
-    params: {
-        id: string
-    }
+  params: Promise<{
+    id: string
+  }>
 }
 
 export default async function MyPosts({ params } : MyPostsPage) {

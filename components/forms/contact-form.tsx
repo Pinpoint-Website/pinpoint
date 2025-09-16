@@ -50,6 +50,7 @@ export default function ContactForm({ recipientEmail, recipientName }: ContactFo
       }
     } catch (err) {
       setError("An unexpected error occurred");
+      console.log(err);
     } finally {
       setIsSubmitting(false);
     }

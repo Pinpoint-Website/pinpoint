@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 
 interface EditPostPage {
-    params: {
-        id: string
-    }
+  params: Promise<{
+    id: string
+  }>
 }
 
 export default async function EditPost({ params } : EditPostPage) {
