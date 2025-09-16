@@ -16,7 +16,7 @@ export default function CommentForm({ postId }: CommentFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!comment.trim()) {
       setError("Comment cannot be empty");
       return;
@@ -27,13 +27,14 @@ export default function CommentForm({ postId }: CommentFormProps) {
 
     try {
       const result = await createComment(postId, comment);
-      
+
       if (result.success) {
         setComment("");
       } else {
         setError(result.error || "Failed to create comment");
       }
     } catch (err) {
+      console.error("An erorr occurred:", err);
       setError("An unexpected error occurred");
     } finally {
       setIsSubmitting(false);
@@ -54,8 +55,8 @@ export default function CommentForm({ postId }: CommentFormProps) {
           <p className="text-sm text-red-600 mt-2">{error}</p>
         )}
       </div>
-      <Button 
-        type="submit" 
+      <Button
+        type="submit"
         disabled={isSubmitting || !comment.trim()}
         className="w-full sm:w-auto"
       >
