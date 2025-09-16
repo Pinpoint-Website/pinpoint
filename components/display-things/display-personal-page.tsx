@@ -1,21 +1,56 @@
 import { createClient } from "@/utils/supabase/server";
-import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
+import ContactForm from "@/components/forms/contact-form";
 import { getCurrentUserId } from "@/lib/get-user";
-import Image from "next/image"; // Import the Next.js Image component
+import { EditPersonalPageButton } from "../buttons/edit-personal-page-button";
 
-export async function PersonalPageDisplay() {
+interface PersonalPageDisplayProps {
+  givenUserId: string;
+}
+
+export async function PersonalPageDisplay({ givenUserId }: PersonalPageDisplayProps) {
   const supabase = createClient(); // No await needed here for standard @supabase/ssr setup
-  const userId = await getCurrentUserId();
+  // get the  actual current user's id to see if they're the owner
+  const currUserId = await getCurrentUserId();
+  const isOwner = currUserId === givenUserId;
 
   // Update your query to include photo_path
   const { data: personalPageData, error } = await (await supabase)
     .from("personal_page")
     .select("description, primary_role, photo_path") // Add photo_path
-    .eq("id", userId)
+    .eq("id", givenUserId)
     .single();
 
+  if (error) {
+    console.error("Error fetching user:", error);
+    return null;
+  }
+
+  // Get user information for contact form
+  const { data: userData, error: userError } = await (await supabase)
+    .from("users")
+    .select("name, username")
+    .eq("id", givenUserId)
+    .single();
+
+  if (userError) {
+    console.error("Error fetching user:", userError);
+    return null;
+  }
+
+  // For the contact form, we'll need to handle email differently
+  // Since we can't access other users' emails from auth, we'll use a placeholder
+  // In a real app, you might want to add an email field to the users table
+  const { data: { user }, error: userEmailData } = await (await supabase).auth.getUser();
+  const userEmail = user?.email; // Placeholder - you'll need to update this
+
+  if (userEmailData) {
+    console.error("Error fetching user:", userEmailData);
+    return null;
+  }
+
   if (error || !personalPageData) {
-    console.error("Error fetching post:", error);
+    console.error("Error fetching personal page:", error);
     return (
       <div className="p-4 rounded-md bg-destructive/10 text-destructive-foreground">
         <p>Sorry, the personal page could not be found.</p>
@@ -29,32 +64,54 @@ export async function PersonalPageDisplay() {
     const { data: urlData } = await (await supabase).storage
       .from("profile_photos") // Make sure this is your bucket name
       .getPublicUrl(personalPageData.photo_path);
-    
+
     publicImageUrl = urlData?.publicUrl || null;
   }
 
   return (
-    <Card className="card-hover">
-      <CardContent className="p-6">
-        {/* 3. Render the image */}
-        {publicImageUrl && (
-          <div className="relative w-24 h-24 mb-4 rounded-full overflow-hidden">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[600px]">
+      {/* Left side - Content */}
+      <div className="flex flex-col justify-between">
+        <div>
+          <h1 className="text-4xl font-bold tracking-tight mb-4">
+            {personalPageData.primary_role}
+          </h1>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            {personalPageData.description}
+          </p>
+        </div>
+
+        {/* Contact form */}
+        <div className="mt-8">
+          <ContactForm
+            recipientEmail={userEmail || "user@example.com"}
+            recipientName={userData?.name || userData?.username || "User"}
+          />
+        </div>
+      </div>
+
+      {/* Right side - Profile photo */}
+      <div className="flex items-center justify-center">
+        {publicImageUrl ? (
+          <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden shadow-2xl">
             <Image
               src={publicImageUrl}
               alt="Profile photo"
-              fill={true} 
-              className="object-cover" 
+              fill={true}
+              className="object-cover"
             />
           </div>
+        ) : (
+          <div className="w-full max-w-md aspect-square rounded-2xl bg-muted flex items-center justify-center shadow-2xl">
+            <span className="text-4xl text-muted-foreground">📷</span>
+          </div>
         )}
-
-        <h3 className="text-xl font-semibold tracking-tight mb-2">
-          {personalPageData.primary_role}
-        </h3>
-        <p className="text-sm text-muted-foreground line-clamp-3">
-          {personalPageData.description}
-        </p>
-      </CardContent>
-    </Card>
+      </div>
+      {isOwner ? (
+        <EditPersonalPageButton />
+      ) : (
+        <></>
+      )}
+    </div>
   );
 }

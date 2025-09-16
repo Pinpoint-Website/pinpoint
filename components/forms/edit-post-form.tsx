@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { DeletePostButton } from "../buttons/delete-post-button";
 
 export default function EditPostForm({ shortDesc, longDesc, isPublic, id, creator }: PostDataAndId) {
   const [formData, setFormData] = useState<PostData>({
@@ -79,6 +80,7 @@ export default function EditPostForm({ shortDesc, longDesc, isPublic, id, creato
         </CardContent>
         <CardFooter className="justify-end">
           <Button type="submit">Save Changes</Button>
+          <DeletePostButton postId={id} />
         </CardFooter>
       </form>
     </Card>

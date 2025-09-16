@@ -1,9 +1,15 @@
 import { PersonalPageDisplay } from "@/components/display-things/display-personal-page";
 
-export default function PersonalPage() {
-    return (
-        <div>
-            <PersonalPageDisplay />
-        </div>
-    );
+interface PersonalPageProps {
+  params: { id: string };
+}
+
+export default async function PersonalPage({ params }: PersonalPageProps) {
+  const userId = (await params).id;
+
+  return (
+    <div className="container-custom max-w-6xl">
+      <PersonalPageDisplay givenUserId={userId} />
+    </div>
+  );
 }

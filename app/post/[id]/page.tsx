@@ -8,6 +8,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import LikeButton from "@/components/buttons/like-button";
 import ViewTracker from "@/components/logic/view-tracker";
+import CommentForm from "@/components/forms/comment-form";
+import CommentDisplay from "@/components/display-things/comment-display";
 
 // Defines the expected structure for the page's parameters, specifically a dynamic 'id' from the URL.
 interface PostPageProps {
@@ -73,6 +75,47 @@ export default async function PostPage({ params }: PostPageProps) {
   // Sets a boolean indicating whether the user has liked the post based on the query result.
   const hasLiked = !!likeData;
 
+  // --- Comments Fetching ---
+  // Fetches all comments for this post with user information and likes
+  const { data: comments, error: commentsError } = await supabase
+    .from("comments")
+    .select(`
+      id,
+      comment_body,
+      created_at,
+      creator,
+      likes,
+      users:creator (
+        username,
+        name
+      )
+    `)
+    .eq("post", postId)
+    .order("created_at", { ascending: true });
+
+  // Logs an error only for actual database issues, not for empty results
+  if (commentsError && commentsError.code !== "PGRST116") {
+    console.error('Error fetching comments:', commentsError);
+  }
+
+  // --- Comment Like Status Check ---
+  // Check which comments the current user has liked
+  let userCommentLikes: string[] = [];
+  if (userId && comments && comments.length > 0) {
+    const commentIds = comments.map(comment => comment.id);
+    const { data: userLikesData, error: userLikesError } = await supabase
+      .from("user_comment_like_join")
+      .select("comment_id")
+      .eq("user_id", userId)
+      .in("comment_id", commentIds);
+    
+    if (userLikesError && userLikesError.code !== "PGRST116") {
+      console.error("Error checking comment likes:", userLikesError);
+    } else if (userLikesData) {
+      userCommentLikes = userLikesData.map(like => like.comment_id);
+    }
+  }
+
   // --- Component Rendering ---
   return (
     <div className="container-custom max-w-4xl">
@@ -121,6 +164,28 @@ export default async function PostPage({ params }: PostPageProps) {
           </p>
         </CardContent>
       </Card>
+
+      {/* Comments Section */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold mb-6">Comments</h2>
+        
+        {/* Comment Form */}
+        <Card className="mb-6">
+          <CardContent className="p-6">
+            <CommentForm postId={postId} />
+          </CardContent>
+        </Card>
+
+        {/* Comments Display */}
+        <CommentDisplay 
+          comments={(comments || []).map(comment => ({
+            ...comment,
+            users: Array.isArray(comment.users) ? comment.users[0] || null : comment.users,
+            isLiked: userCommentLikes.includes(comment.id)
+          }))} 
+          userId={userId}
+        />
+      </div>
     </div>
   );
 }

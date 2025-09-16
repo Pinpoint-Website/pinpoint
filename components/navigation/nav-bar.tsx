@@ -5,11 +5,16 @@ import { MyPostsButton } from "../buttons/my-posts-button";
 import { LogoutButton } from "../buttons/logout-button";
 import { LikedPostsButton } from "../buttons/liked-posts-button";
 import { CreatePostButton } from "../buttons/create-post-button";
+import { MyPersonalPageButton } from "../buttons/personal-page-button";
+import { CreatePersonalPageButton } from "../buttons/create-personal-page-button";
 
 export async function NavBar() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
+
+  // Get the user's personal page if they have it
+  const { data: personalPage } = await supabase.from("personal_page").select("id").eq("id", user?.id).single();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -24,6 +29,9 @@ export async function NavBar() {
         <div className="flex items-center gap-3">
           {user ? (
             <>
+              {!personalPage ? (
+                <MyPersonalPageButton />
+              ) : <CreatePersonalPageButton />}
               <CreatePostButton />
               <LikedPostsButton />
               <MyPostsButton />
