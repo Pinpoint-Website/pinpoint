@@ -3,17 +3,13 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 
-interface EditPostPage {
-  params: {
-    id: string
-  }
-}
+type Params = Promise<{ id: string }>;
 
-export default async function EditPost({ params }: EditPostPage) {
+export default async function EditPost({ params }: { params: Params }) {
   const supabase = await createClient();
   // get the post based on it's id (the id is converted from a string to a number so that's why there's 'Number(params.id)' right there)
   // the '(await params)' thing is because of a next.js thing
-  const postId = (await params).id;
+  const { id: postId } = await params;
   const { data: post, error } = await supabase.from('posts').select('short_desc,long_desc,num_interested,is_public,creator').eq('id', postId).single();
 
   // we need to check if the creator is the same as the current user

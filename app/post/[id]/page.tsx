@@ -12,9 +12,7 @@ import CommentDisplay from "@/components/display-things/comment-display";
 import { createClient } from "@/lib/supabase/server";
 
 // Defines the expected structure for the page's parameters, specifically a dynamic 'id' from the URL.
-interface PostPageProps {
-  params: { id: string };
-}
+type PostPageProps = { params: Promise<{ id: string }> };
 
 // This is a Next.js Server Component that fetches and displays a single post.
 // All page components must be default exports.
