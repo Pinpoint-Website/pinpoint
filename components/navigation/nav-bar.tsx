@@ -7,6 +7,7 @@ import { CreatePostButton } from "../buttons/create-post-button";
 import { MyPersonalPageButton } from "../buttons/personal-page-button";
 import { CreatePersonalPageButton } from "../buttons/create-personal-page-button";
 import { createClient } from "@/lib/supabase/server";
+import { ThemeSwitcher } from "../theme-switcher";
 
 export async function NavBar() {
   const supabase = await createClient();
@@ -40,6 +41,7 @@ export async function NavBar() {
           ) : (
             <AuthButton />
           )}
+          <ThemeSwitcher />
         </div>
       </div>
     </header>
