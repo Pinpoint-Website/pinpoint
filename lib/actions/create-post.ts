@@ -1,13 +1,13 @@
 "use server" // need to declare it as a server component because that's the only way a client can do a server action
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "../supabase/server";
 import { revalidatePath } from "next/cache";
 import { PostData } from "@/lib/types";
 import { redirect } from "next/navigation";
 
 export async function createPost(formData: PostData) {
   const supabase = await createClient();
-  const { data: { user }, error: userError } = await supabase.auth.getUser(); 
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
 
   // Handle case where error occurs
   // type script really want's to make sure that user exists so you actually need this or there'll be a red squiggly line when you access anything within 'user'
@@ -29,9 +29,9 @@ export async function createPost(formData: PostData) {
     console.error("Error inserting data:", error);
     return { message: "Failed to create post." };
   }
-  
+
   // This will clear the cache for the posts page, ensuring the new post appears.
-  revalidatePath("/posts"); 
+  revalidatePath("/posts");
 
   redirect(`/post/${data?.id}`);
 }

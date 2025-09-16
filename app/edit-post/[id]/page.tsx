@@ -1,5 +1,5 @@
 import EditPostForm from "@/components/forms/edit-post-form";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 

@@ -1,16 +1,16 @@
-import { createClient } from "@/utils/supabase/server";
 import { notFound } from 'next/navigation';
 import { formatDate } from "@/lib/format-date";
 import Link from "next/link";
 import { NavBarForMyPosts } from "@/components/navigation/nav-bar-my-posts";
+import { createClient } from '@/lib/supabase/server';
 
 interface LikedPostsPageParams {
-    params: {
-        id: string
-    }
+  params: {
+    id: string
+  }
 }
 
-export default async function MyPosts({ params } : LikedPostsPageParams) {
+export default async function MyPosts({ params }: LikedPostsPageParams) {
   const supabase = await createClient();
   const userId = (await params).id;
 

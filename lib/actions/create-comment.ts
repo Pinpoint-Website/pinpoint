@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { getCurrentUserId } from "@/lib/get-user";
 
@@ -30,6 +30,6 @@ export async function createComment(postId: string, commentBody: string) {
 
   // Revalidate the post page to show the new comment
   revalidatePath(`/post/${postId}`);
-  
+
   return { success: true };
 }

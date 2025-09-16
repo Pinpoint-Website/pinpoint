@@ -1,4 +1,3 @@
-import { createClient } from "@/utils/supabase/server";
 import { formatDate } from "@/lib/format-date";
 import { notFound } from 'next/navigation';
 import BackButton from '@/components/buttons/back-button';
@@ -10,6 +9,7 @@ import LikeButton from "@/components/buttons/like-button";
 import ViewTracker from "@/components/logic/view-tracker";
 import CommentForm from "@/components/forms/comment-form";
 import CommentDisplay from "@/components/display-things/comment-display";
+import { createClient } from "@/lib/supabase/server";
 
 // Defines the expected structure for the page's parameters, specifically a dynamic 'id' from the URL.
 interface PostPageProps {
@@ -27,7 +27,7 @@ export default async function PostPage({ params }: PostPageProps) {
   // Fetches the single post from the 'posts' table using the ID.
   // Using .single() ensures only one row is returned, which is more efficient.
   const { data: post, error } = await supabase.from("posts").select().eq("id", postId).single();
-  
+
   // If no post is found or there's a database error, show the Next.js notFound page.
   if (error || !post) {
     notFound();
@@ -52,7 +52,7 @@ export default async function PostPage({ params }: PostPageProps) {
     .select("name,username")
     .eq("id", post?.creator)
     .single();
-    
+
   // Logs an error if the user profile cannot be found.
   if (userError) {
     console.error('Error finding the user:', userError);
@@ -66,12 +66,12 @@ export default async function PostPage({ params }: PostPageProps) {
     .eq("user_id", post?.creator)
     .eq("post_id", post?.id)
     .single();
-    
+
   // Checks for unexpected errors, ignoring the specific 'not found' error (PGRST116).
   if (likeDataError && likeDataError.code !== "PGRST116") {
     console.error("An unexpected error occurred while checking for a like:", likeDataError);
   }
-  
+
   // Sets a boolean indicating whether the user has liked the post based on the query result.
   const hasLiked = !!likeData;
 
@@ -108,7 +108,7 @@ export default async function PostPage({ params }: PostPageProps) {
       .select("comment_id")
       .eq("user_id", userId)
       .in("comment_id", commentIds);
-    
+
     if (userLikesError && userLikesError.code !== "PGRST116") {
       console.error("Error checking comment likes:", userLikesError);
     } else if (userLikesData) {
@@ -124,14 +124,14 @@ export default async function PostPage({ params }: PostPageProps) {
         <BackButton />
       </div>
       <ViewTracker postId={postId} />
-      
+
       {/* Container for the post content, using a Card component. */}
       <Card className="card-hover">
         <CardContent className="p-6 sm:p-8">
           <div className="flex items-start justify-between gap-4 mb-2">
             {/* Post Title */}
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{post.short_desc}</h1>
-            
+
             {/* Conditionally renders an "Edit" button if the current user is the post's creator. */}
             {isOwner && (
               <Button asChild size="sm">
@@ -139,7 +139,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </Button>
             )}
           </div>
-          
+
           {/* Post metadata including author, date, views, and like button. */}
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground mb-6">
             <span>by {user?.username}</span>
@@ -157,7 +157,7 @@ export default async function PostPage({ params }: PostPageProps) {
               {post?.is_public ? 'Public' : 'Private'}
             </span>
           </div>
-          
+
           {/* Post's main content with preserved line breaks. */}
           <p className="text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
             {post?.long_desc}
@@ -168,7 +168,7 @@ export default async function PostPage({ params }: PostPageProps) {
       {/* Comments Section */}
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-6">Comments</h2>
-        
+
         {/* Comment Form */}
         <Card className="mb-6">
           <CardContent className="p-6">
@@ -177,12 +177,12 @@ export default async function PostPage({ params }: PostPageProps) {
         </Card>
 
         {/* Comments Display */}
-        <CommentDisplay 
+        <CommentDisplay
           comments={(comments || []).map(comment => ({
             ...comment,
             users: Array.isArray(comment.users) ? comment.users[0] || null : comment.users,
             isLiked: userCommentLikes.includes(comment.id)
-          }))} 
+          }))}
           userId={userId}
         />
       </div>

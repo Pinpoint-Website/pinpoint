@@ -69,7 +69,7 @@ export default function ContactForm({ recipientEmail, recipientName }: ContactFo
           Message Sent!
         </h3>
         <p className="text-green-700 dark:text-green-300">
-          Your message has been sent to {recipientName}. They'll get back to you soon!
+          Your message has been sent to {recipientName}. They&apos;ll get back to you soon!
         </p>
       </div>
     );
