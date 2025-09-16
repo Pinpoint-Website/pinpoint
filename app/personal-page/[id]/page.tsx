@@ -1,8 +1,6 @@
 import { PersonalPageDisplay } from "@/components/display-things/display-personal-page";
 
-interface PersonalPageProps {
-  params: { id: string };
-}
+type PersonalPageProps = { params: Promise<{ id: string }> };
 
 export default async function PersonalPage({ params }: PersonalPageProps) {
   const userId = (await params).id;

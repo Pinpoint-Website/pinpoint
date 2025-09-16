@@ -1,13 +1,10 @@
+
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { formatDate } from "@/lib/format-date";
 import Link from "next/link";
 
-interface MyPostsPage {
-  params: {
-    id: string
-  }
-}
+type MyPostsPage = { params: Promise<{ id: string }> };
 
 export default async function MyPosts({ params }: MyPostsPage) {
   const supabase = await createClient();

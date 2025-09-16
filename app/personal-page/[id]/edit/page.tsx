@@ -1,8 +1,6 @@
 import EditPersonalPageForm from "@/components/forms/edit-personal-page-form";
 
-interface PersonalPageProps {
-  params: { id: string };
-}
+type PersonalPageProps = { params: Promise<{ id: string }> };
 
 export default async function EditPersonalPage({ params }: PersonalPageProps) {
   const userId = (await params).id;
