@@ -1,8 +1,8 @@
-import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import ContactForm from "@/components/forms/contact-form";
 import { getCurrentUserId } from "@/lib/get-user";
 import { EditPersonalPageButton } from "../buttons/edit-personal-page-button";
+import { createClient } from "@/lib/supabase/server";
 
 interface PersonalPageDisplayProps {
   givenUserId: string;

@@ -1,8 +1,7 @@
-import { createClient } from "@/utils/supabase/server";
 import { PostProps } from "@/lib/types";
 import Link from 'next/link';
 import { Card, CardContent } from "@/components/ui/card";
-import { Divide } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
 
 export async function PostDisplay({ postId }: PostProps) {
   const supabase = await createClient();

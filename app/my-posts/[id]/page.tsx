@@ -1,15 +1,15 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { formatDate } from "@/lib/format-date";
 import Link from "next/link";
 
 interface MyPostsPage {
-    params: {
-        id: string
-    }
+  params: {
+    id: string
+  }
 }
 
-export default async function MyPosts({ params } : MyPostsPage) {
+export default async function MyPosts({ params }: MyPostsPage) {
   const supabase = await createClient();
   const userId = (await params).id;
 

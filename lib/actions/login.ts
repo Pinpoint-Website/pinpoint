@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { createClient } from '@/utils/supabase/server' // Adjust path if needed
+import { createClient } from '../supabase/server'
 
 // This action takes strings, not FormData
 export async function login(email: string, password: string) {
