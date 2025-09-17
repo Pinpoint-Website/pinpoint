@@ -17,4 +17,4 @@ primary_region = 'lax'
   processes = ['app']
 
 [[vm]]
-  size = 'shared-cpu-1x'
+  size = 'shared-cpu-4x'
