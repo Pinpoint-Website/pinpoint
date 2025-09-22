@@ -47,7 +47,7 @@ export function SignUpForm({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/protected`,
+          emailRedirectTo: `${window.location.origin}/auth/login?success=1`,
           // Gemini helped me with this, it said it was the better way of doing things
           data: {
             full_name: name, // Passed to the database trigger as raw_user_meta_data

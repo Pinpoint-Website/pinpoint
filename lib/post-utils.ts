@@ -21,5 +21,8 @@ export async function getFypPostIds(): Promise<string[]> {
   // The query returns an array of objects like [{id: '...'}],
   // so we map it to return an array of strings ['...'] to match the return type.
   return data ? data.map(post => post.id) : [];
-  
 }
+
+
+// so basically what i want to do is make a search bar to search posts by tags
+// but i also want to make the main page have just the most recent posts, but you should be able to look at 
