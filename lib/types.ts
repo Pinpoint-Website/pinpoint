@@ -1,5 +1,5 @@
 export type PostProps = {
-  postId: string;
+    postId: string;
 }
 
 export type PostData = {
@@ -7,7 +7,6 @@ export type PostData = {
   longDesc: string;
   isPublic: boolean;
   creator: number;
-  tags: string[];
 };
 
 export type PostDataAndId = {

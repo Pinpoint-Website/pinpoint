@@ -8,18 +8,14 @@ import { MyPersonalPageButton } from "../buttons/personal-page-button";
 import { CreatePersonalPageButton } from "../buttons/create-personal-page-button";
 import { createClient } from "@/lib/supabase/server";
 import { ThemeSwitcher } from "../theme-switcher";
-import { getCurrentUserId } from "@/lib/get-user";
 
 export async function NavBar() {
   const supabase = await createClient();
-
-  // check if user exists and then get their id
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
-  const userId = await getCurrentUserId();
 
-  // Get the user's personal page if they have it, use the error to determine if the page exists or not
-  const { data: personalPage } = await supabase.from("personal_page").select("id").eq("id", userId).single();
+  // Get the user's personal page if they have it
+  const { data: personalPage } = await supabase.from("personal_page").select("id").eq("id", user?.id).single();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -34,7 +30,7 @@ export async function NavBar() {
         <div className="flex items-center gap-3">
           {user ? (
             <>
-              {personalPage ? (
+              {!personalPage ? (
                 <MyPersonalPageButton />
               ) : <CreatePersonalPageButton />}
               <CreatePostButton />
