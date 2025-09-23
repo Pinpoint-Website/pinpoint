@@ -7,7 +7,7 @@ export type PostData = {
   longDesc: string;
   isPublic: boolean;
   creator: number;
-  tags: string[];
+  //  tags: string[];
 };
 
 export type PostDataAndId = {

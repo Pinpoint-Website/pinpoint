@@ -16,7 +16,7 @@ export default function CreatePostForm() {
     longDesc: "",
     isPublic: false,
     creator: 0,
-    tags: [],
+    //    tags: [],
   });
 
   const handleChange = (
@@ -28,23 +28,23 @@ export default function CreatePostForm() {
       [name]: value,
     }));
   };
-
-  const handleChangeTags = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    // need to make sure that the tags are interpreted correctly
-    const tags = value.split(","); // turn the comment seperated tags into an array
-
-    // set the form data
-    setFormData((prev) => ({
-      ...prev,
-      [name]: tags,
-    }));
-  }
-
+  /*
+    const handleChangeTags = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      // need to make sure that the tags are interpreted correctly
+      const tags = value.split(","); // turn the comment seperated tags into an array
+  
+      // set the form data
+      setFormData((prev) => ({
+        ...prev,
+        [name]: tags,
+      }));
+    }
+  */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await createPost(formData);
-    setFormData({ shortDesc: "", longDesc: "", isPublic: false, creator: 0, tags: [] });
+    setFormData({ shortDesc: "", longDesc: "", isPublic: false, creator: 0, /* tags: [] */ });
   };
 
   return (
@@ -78,7 +78,7 @@ export default function CreatePostForm() {
               placeholder="Share more context, goals, and any relevant info..."
             />
           </div>
-
+          {/*
           <div className="grid gap-2">
             <Label htmlFor="tags">Tags</Label>
             <Textarea
@@ -90,7 +90,7 @@ export default function CreatePostForm() {
             />
             <span>Please enter tags as full words with no spaces, seperated by commas</span>
           </div>
-
+*/}
           <div className="flex items-center gap-2">
             <Checkbox
               id="isPublic"

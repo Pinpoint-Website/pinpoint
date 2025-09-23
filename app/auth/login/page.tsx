@@ -2,9 +2,17 @@
 
 import { LoginForm } from "@/components/forms/login-form";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 export default function Page() {
-  // get the search parameters
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
+  );
+}
+
+function LoginPageContent() {
   const searchParams = useSearchParams();
   const showSuccess = searchParams.get("success") === "1";
 
