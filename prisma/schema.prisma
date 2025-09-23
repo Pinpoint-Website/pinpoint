@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas   = ["auth", "public"]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model comments {
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  comment_body           String                   @default("\"\"")
+  post                   String                   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  creator                String                   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at             DateTime                 @default(now()) @db.Timestamptz(6)
+  likes                  BigInt                   @default(0)
+  users                  public_users             @relation(fields: [creator], references: [id], onDelete: Cascade)
+  posts                  posts                    @relation(fields: [post], references: [id], onDelete: Cascade)
+  user_comment_like_join user_comment_like_join[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model personal_page {
+  id           String @id @db.Uuid
+  primary_role String
+  description  String
+  photo_path   String @default("\"\"")
+  users        Users  @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model post_tags_join {
+  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  post_id String @db.Uuid
+  tag_id  String @db.Uuid
+  posts   posts  @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  tags    tags   @relation(fields: [tag_id], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model posts {
+  created_at     DateTime         @default(now()) @db.Timestamptz(6)
+  short_desc     String
+  long_desc      String
+  is_public      Boolean
+  num_interested BigInt           @default(0)
+  creator        String?          @db.Uuid
+  likes          BigInt           @default(0)
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  comments       comments[]
+  post_tags_join post_tags_join[]
+  users          Users?           @relation(fields: [creator], references: [id], onDelete: Cascade)
+  user_like_join user_like_join[]
+
+  @@index([created_at(sort: Desc)])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model tags {
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tag            String           @default("")
+  post_tags_join post_tags_join[]
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model user_comment_like_join {
+  user_id    String   @db.Uuid
+  comment_id String   @db.Uuid
+  comments   comments @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+  users      Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, comment_id])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model user_like_join {
+  user_id String       @db.Uuid
+  post_id String       @db.Uuid
+  posts   posts        @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  users   public_users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, post_id])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model public_users {
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at     DateTime         @default(now()) @db.Timestamptz(6)
+  name           String           @unique
+  username       String?          @unique
+  comments       comments[]
+  user_like_join user_like_join[]
+  users          Users            @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@map("users")
+  @@schema("public")
+}
+
+// Minimal placeholder model for Supabase's `auth.users` table
+model Users {
+  id                     String                   @id // Represents the `id` (UUID) column in `auth.users`
+  personal_page          personal_page? // Defines the one-to-one relationship back to Profile
+  posts                  posts[]
+  user_comment_like_join user_comment_like_join[]
+  public_users           public_users[]
+
+  // This is the magic line
+  // It tells Prisma that this model maps to the `users` table in the `auth` schema.
+  @@map("users")
+  @@schema("auth")
+}

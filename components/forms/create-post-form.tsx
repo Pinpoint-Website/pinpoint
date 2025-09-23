@@ -29,6 +29,7 @@ export default function CreatePostForm() {
     }));
   };
 
+
   const handleChangeTags = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     // need to make sure that the tags are interpreted correctly
@@ -40,6 +41,7 @@ export default function CreatePostForm() {
       [name]: tags,
     }));
   }
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
