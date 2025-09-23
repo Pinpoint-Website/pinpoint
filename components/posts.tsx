@@ -1,20 +1,45 @@
+"use client";
+
 import { PostDisplay } from "./display-things/post-display";
-import { getFypPostIds } from "@/lib/post-utils"; 
+import { useState, useEffect } from 'react';
 
-// This must be an async Server Component
-export async function Posts() {
-    // Await the promise from your new helper function
-    const postIds = await getFypPostIds();
+// Define the type for the action prop
+type PostsProps = {
+    page: number;
+    fetchPostIdsAction: (page: number) => Promise<string[]>;
+};
 
-    // Check if postIds is actually an array before trying to map it
+export function Posts({ page, fetchPostIdsAction }: PostsProps) {
+    const [postIds, setPostIds] = useState<string[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                // Use the action that was passed in via props
+                const result = await fetchPostIdsAction(page);
+                setPostIds(result);
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+                setPostIds([]);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, [page, fetchPostIdsAction]); // Add the action to the dependency array
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
     if (!Array.isArray(postIds) || postIds.length === 0) {
-      return <p>No posts to display.</p>
+        return <p>No posts to display.</p>;
     }
 
     return (
         <div className="flex flex-col gap-4">
             {postIds.map((id) => (
-                // Now you can be certain that 'id' is a number
                 <PostDisplay key={id} postId={id} />
             ))}
         </div>
