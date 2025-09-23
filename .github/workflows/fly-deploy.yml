@@ -13,16 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      
-      # Step 1: Securely set the secrets in your Fly.io app's environment
-      - run: |
-          flyctl secrets set \
-            --build-secret NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }} \
-            --build-secret NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           
       # Step 2: Deploy your application code
-      - run: flyctl deploy --remote-only
+      - run: flyctl deploy --remote-only \
+            --build-secret NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }} \
+            --build-secret NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
