@@ -11,11 +11,13 @@ import { ThemeSwitcher } from "../theme-switcher";
 
 export async function NavBar() {
   const supabase = await createClient();
-  const { data } = await supabase.auth.getClaims();
-  const user = data?.claims;
 
-  // Get the user's personal page if they have it
-  const { data: personalPage } = await supabase.from("personal_page").select("id").eq("id", user?.id).single();
+  // check if user exists and then get their id
+  const { data } = await supabase.auth.getClaims();
+  const userId = data?.claims?.sub;
+
+  // Get the user's personal page if they have it, use the error to determine if the page exists or not
+  const { data: personalPage } = await supabase.from("personal_page").select("id").eq("id", userId).single();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -28,9 +30,9 @@ export async function NavBar() {
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          {user ? (
+          {userId ? (
             <>
-              {!personalPage ? (
+              {personalPage ? (
                 <MyPersonalPageButton />
               ) : <CreatePersonalPageButton />}
               <CreatePostButton />

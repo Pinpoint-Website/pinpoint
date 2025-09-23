@@ -19,8 +19,9 @@ export async function sendContactEmail(data: ContactEmailData) {
     }
 
     const { data: emailData, error } = await resend.emails.send({
-      from: "Pinpoint <delivered@resend.dev>", // Need to replace with actual domain later
+      from: "Pinpoint <no-reply@the-pinbox.com>", // Need to replace with actual domain later
       to: [data.to],
+      cc: [data.fromEmail],
       subject: `New message from ${data.fromName} via Pinpoint`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
