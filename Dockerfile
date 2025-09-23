@@ -27,12 +27,15 @@ RUN npm ci --include=dev
 # Copy application code
 COPY . .
 
-# Build application
-RUN npm run build
+# Add the secrets
+RUN --mount=type=secret,id=SUPABASE_URL \
+    --mount=type=secret,id=SUPABASE_ANON_KEY \
+    NEXT_PUBLIC_SUPABASE_URL="$(cat /run/secrets/SUPABASE_URL)" \
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_OR_ANON_KEY="$(cat /run/secrets/SUPABASE_ANON_KEY)" \
+    npm run build
 
 # Remove development dependencies
 RUN npm prune --omit=dev
-
 
 # Final stage for app image
 FROM base
