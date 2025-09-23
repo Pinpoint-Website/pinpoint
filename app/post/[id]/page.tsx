@@ -140,12 +140,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Post metadata including author, date, views, and like button. */}
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground mb-6">
-            <Link
-              href={`/personal-page/${post.creator}`}
-              className="hover:text-primary hover:underline transition-colors"
-            >
-              by {user?.username}
-            </Link>
+            <span>by {user?.username}</span>
             <span>•</span>
             <span>Published on {formattedDate}</span>
             <span>•</span>
