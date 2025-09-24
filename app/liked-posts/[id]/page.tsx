@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 
 type LikedPostsPageParams = { params: Promise<{ id: string }> };
 
-export default async function MyPosts({ params }: LikedPostsPageParams) {
+export default async function LikedPosts({ params }: LikedPostsPageParams) {
   const supabase = await createClient();
   const userId = (await params).id;
 
@@ -22,7 +22,7 @@ export default async function MyPosts({ params }: LikedPostsPageParams) {
 
   const postIds = postsData.map(entry => entry.post_id);
 
-  const { data: likedPosts, error: likedPostsError } = await supabase.from("posts").select().in("id", postIds);
+  const { data: likedPosts, error: likedPostsError } = await supabase.from("posts").select().eq("is_public", true).in("id", postIds);
 
   if (likedPostsError) {
     console.error("Error fetching liked posts:", likedPostsError);
