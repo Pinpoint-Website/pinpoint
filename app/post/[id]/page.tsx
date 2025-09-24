@@ -47,7 +47,7 @@ export default async function PostPage({ params }: PostPageProps) {
   // Fetches the creator's username from the 'users' table for display.
   const { data: user, error: userError } = await supabase
     .from("users")
-    .select("name,username")
+    .select("name,username,id")
     .eq("id", post?.creator)
     .single();
 
@@ -140,7 +140,9 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Post metadata including author, date, views, and like button. */}
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground mb-6">
-            <span>by {user?.username}</span>
+            <Link href={`/personal-page/${user?.id}`} className="text-sm text-primary hover:underline">
+              {user?.name || user?.username || 'Unknown User'}
+            </Link>
             <span>•</span>
             <span>Published on {formattedDate}</span>
             <span>•</span>

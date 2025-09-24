@@ -23,7 +23,7 @@ export async function NavBar() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container-custom h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/" className="font-semibold tracking-tight text-lg">Pinpoint</Link>
+          <Link href="/" className="font-semibold tracking-tight text-lg">Pinbox</Link>
           <nav className="hidden md:flex items-center gap-1 text-sm text-muted-foreground">
             <Link href="/" className="nav-link">Home</Link>
             <Link href="/about" className="nav-link">About</Link>
