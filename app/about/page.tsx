@@ -78,29 +78,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="space-y-6">
-        <h2 className="text-3xl font-semibold tracking-tight text-center">Simple Pricing</h2>
-        <div className="mx-auto max-w-sm rounded-lg border bg-card p-8 text-center">
-          <div className="space-y-2">
-            <p className="text-4xl font-bold">$20</p>
-            <p className="text-muted-foreground">per month</p>
-          </div>
-          <div className="mt-6 space-y-4">
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>Full platform access</li>
-              <li>Connect with businesses</li>
-              <li>Browse all opportunities</li>
-              <li>First month $5 only</li>
-              <li>$5 off for referrals</li>
-            </ul>
-            <Button className="w-full" asChild>
-              <Link href="/auth/sign-up">Get Started</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
       {/* Call to Action */}
       <section className="text-center space-y-6 bg-secondary rounded-lg p-8">
         <h2 className="text-3xl font-semibold tracking-tight">
