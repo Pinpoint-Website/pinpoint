@@ -5,13 +5,13 @@ import "./globals.css";
 import { NavBar } from "@/components/navigation/nav-bar";
 import { Footer } from "@/components/navigation/footer";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
+const defaultUrl = process.env.APP_BASE_URL
+  ? `https://${process.env.APP_BASE_URL}`
   : "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Pinpoint",
+  title: "The Pinbox",
   description: "Share your ideas, connect with others, and discover collaborations.",
 };
 
