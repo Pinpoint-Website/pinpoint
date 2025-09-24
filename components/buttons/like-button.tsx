@@ -6,7 +6,7 @@ import { toggleLike } from "@/lib/actions/likes";
 
 interface LikeButtonProps {
     postId: string;
-    initialLikes: number;
+    initialLikes: number | null | undefined; // this needs to be like this because it's coming directly from the database
     isLiked: boolean;
     userId: string | undefined; // we have to do this becuase of how getCurrentUser works, it can't garuentee that it'll get back to us with an id
 }
@@ -17,16 +17,13 @@ export default function LikeButton({ postId, initialLikes, isLiked, userId }: Li
 
     const handleLike = async () => {
 
-        // get new like count and liked state
-        const newLikeCount = liked ? likeCount - 1 : likeCount + 1;
-        const newLikedState = !liked;
-
-        // update the ui first
-        setLikeCount(newLikeCount);
-        setLiked(newLikedState);
-
         // use the server action to update the database
         const result = await toggleLike(userId, postId, liked);
+
+        // Update the ui
+        const newLikedState = !liked;
+        setLikeCount(result?.likeCount);
+        setLiked(newLikedState);
 
         // check if the server action returns an error
         if (result?.success === false) {
