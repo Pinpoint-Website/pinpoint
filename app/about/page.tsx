@@ -31,7 +31,7 @@ export default function AboutPage() {
           </div>
           <div className="space-y-4">
             <div className="inline-flex items-center justify-center rounded-lg bg-primary/10 px-3 py-1 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-              For Businesses
+              For Workers and Businesses
             </div>
             <h2 className="text-2xl font-semibold tracking-tight">
               Surface Creative Solutions
