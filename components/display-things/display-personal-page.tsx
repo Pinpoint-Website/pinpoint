@@ -23,7 +23,11 @@ export async function PersonalPageDisplay({ givenUserId }: PersonalPageDisplayPr
 
   if (error) {
     console.error("Error fetching user:", error);
-    return null;
+    return (
+      <div className="p-4 rounded-md bg-destructive/10 text-destructive-foreground">
+        <p>Sorry, the personal page could not be found.</p>
+      </div>
+    );
   }
 
   // Get user information for contact form
@@ -35,7 +39,11 @@ export async function PersonalPageDisplay({ givenUserId }: PersonalPageDisplayPr
 
   if (userError) {
     console.error("Error fetching user:", userError);
-    return null;
+    return (
+      <div className="p-4 rounded-md bg-destructive/10 text-destructive-foreground">
+        <p>Sorry, the personal page could not be found.</p>
+      </div>
+    );
   }
 
   // For the contact form, we'll need to handle email differently
@@ -46,7 +54,11 @@ export async function PersonalPageDisplay({ givenUserId }: PersonalPageDisplayPr
 
   if (userEmailData) {
     console.error("Error fetching user:", userEmailData);
-    return null;
+    return (
+      <div className="p-4 rounded-md bg-destructive/10 text-destructive-foreground">
+        <p>Sorry, the personal page could not be found.</p>
+      </div>
+    );
   }
 
   if (error || !personalPageData) {
