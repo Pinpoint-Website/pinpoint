@@ -73,7 +73,6 @@ export default async function PostPage({ params }: PostPageProps) {
   // Sets a boolean indicating whether the user has liked the post based on the query result.
   // if they haven't liked before, we need to default to setting hasLiked to false
   const hasLiked = !!likeData;
-  console.log("hasLiked:", hasLiked);
 
   // --- Comments Fetching ---
   // Fetches all comments for this post with user information and likes
