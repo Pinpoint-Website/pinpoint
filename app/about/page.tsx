@@ -4,91 +4,121 @@ import Link from "next/link";
 export default function AboutPage() {
   return (
     <div className="max-w-4xl mx-auto py-12 space-y-16">
-      {/* Hero Section */}
+      {/* Hero Section: REFRAMED
+        The headline is now worker-centric, focusing on their experience and voice.
+        The sub-headline clearly states what the platform is: an anonymous, professional community.
+      */}
       <section className="text-center space-y-6">
         <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
-          Bridging Innovation Gaps
+          From the Front Lines to the Bottom Line
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Pinpoint connects businesses with real problems to entrepreneurs with innovative solutions
+          Pinpoint is the anonymous platform where verified professionals share
+          the real story about the technology shaping their industries.
         </p>
       </section>
 
-      {/* Main Value Proposition */}
+      <hr />
+
+      {/* Main Value Proposition: RESTRUCTURED
+        The audience is now split between the "data creators" (workers) and the
+        "data consumers" (investors). The primary focus is on the workers' benefits.
+      */}
       <section className="space-y-6">
         <div className="grid gap-8 md:grid-cols-2">
           <div className="space-y-4">
             <div className="inline-flex items-center justify-center rounded-lg bg-primary/10 px-3 py-1 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-              For Entrepreneurs
+              For Professionals & Workers
             </div>
             <h2 className="text-2xl font-semibold tracking-tight">
-              Build Solutions People Actually Need
+              Share What Really Works (and What Doesn&apos;t)
             </h2>
             <p className="text-muted-foreground">
-              Access valuable market insight, reduce risk, and connect with potential first customers.
-              Start your entrepreneurial journey with validated problems worth solving.
+              Vent about buggy software, praise a tool that saves you hours, and
+              discuss tech frustrations with peers who get it. Your identity is
+              always anonymous, so you can speak freely.
             </p>
           </div>
           <div className="space-y-4">
             <div className="inline-flex items-center justify-center rounded-lg bg-primary/10 px-3 py-1 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-              For Workers and Businesses
+              For Analysts & Investors
             </div>
             <h2 className="text-2xl font-semibold tracking-tight">
-              Surface Creative Solutions
+              Access a Real-Time Economic Signal
             </h2>
             <p className="text-muted-foreground">
-              Share your business challenges and tap into the innovative minds of tomorrow&apos;s founders.
-              Find creative solutions while reducing overhead costs.
+              Leverage our AI-powered tools to tap into an unfiltered, real-time
+              stream of insights on tech adoption, market gaps, and company
+              performance—straight from the people on the ground.
             </p>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
+      <hr />
+
+      {/* How It Works: REWRITTEN
+        The steps are now focused on the worker's journey and are transparent
+        about how their contribution creates value.
+      */}
       <section className="space-y-8">
-        <h2 className="text-3xl font-semibold tracking-tight text-center">How It Works</h2>
+        <h2 className="text-3xl font-semibold tracking-tight text-center">
+          How It Works
+        </h2>
         <div className="grid gap-8 md:grid-cols-3">
           <div className="space-y-3">
             <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-lg font-medium text-primary-foreground">
               1
             </div>
-            <h3 className="text-xl font-semibold">Share Challenges</h3>
+            <h3 className="text-xl font-semibold">Join Anonymously</h3>
             <p className="text-muted-foreground">
-              Businesses post their unsolved problems and pain points on the platform
+              Verify your employment to join private, industry-specific
+              discussions. Your identity and personal information are never
+              revealed or shared.
             </p>
           </div>
           <div className="space-y-3">
             <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-lg font-medium text-primary-foreground">
               2
             </div>
-            <h3 className="text-xl font-semibold">Connect</h3>
+            <h3 className="text-xl font-semibold">Share Your Experience</h3>
             <p className="text-muted-foreground">
-              Entrepreneurs browse challenges and find opportunities that match their skills
+              Discuss the tools, software, and tech challenges you face every
+              day. Find community and validation with peers who understand your
+              struggles.
             </p>
           </div>
           <div className="space-y-3">
             <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-lg font-medium text-primary-foreground">
               3
             </div>
-            <h3 className="text-xl font-semibold">Build Solutions</h3>
+            <h3 className="text-xl font-semibold">Power Real Insight</h3>
             <p className="text-muted-foreground">
-              Create solutions with validated demand and a built-in customer base
+              Our AI aggregates the collective conversation into powerful,
+              anonymized insights that reveal market trends and drive smarter
+              investment decisions.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
+      <hr />
+
+      {/* Call to Action: REFOCUSED
+        The language is now about empowerment and joining a community, not an
+        entrepreneurial "journey". The button text is also more specific.
+      */}
       <section className="text-center space-y-6 bg-secondary rounded-lg p-8">
         <h2 className="text-3xl font-semibold tracking-tight">
-          Ready to Start Your Journey?
+          Make Your Voice Heard
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Join Pinpoint today and be part of a community that&apos;s reshaping how entrepreneurs solve real business problems.
+          Join a secure community of your peers and help shape the future of
+          your industry. Your perspective is the missing data point.
         </p>
         <div className="flex gap-4 justify-center">
-          <Button asChild>
-            <Link href="/auth/sign-up">Sign Up Now</Link>
+          <Button asChild size="lg">
+            <Link href="/auth/sign-up">Sign Up Anonymously</Link>
           </Button>
         </div>
       </section>

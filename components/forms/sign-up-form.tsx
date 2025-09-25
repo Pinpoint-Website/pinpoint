@@ -79,7 +79,7 @@ export function SignUpForm({
                 <Input
                   id="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="This is for freelancers or investors. You can use Anon if you prefer."
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
