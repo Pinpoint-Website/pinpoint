@@ -52,8 +52,9 @@ export async function updateSession(request: NextRequest) {
   if (
     request.nextUrl.pathname !== "/about" &&
     !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth")
+    !request.nextUrl.pathname.startsWith("/auth") &&
+    !request.nextUrl.pathname.startsWith("/post") && // allow the public to click posts so they can get redirected
+    request.nextUrl.pathname !== "/"
   ) {
     // not an authenticated user, respond by redirecting the user to the about page
     const url = request.nextUrl.clone();
