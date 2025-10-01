@@ -33,4 +33,4 @@ jobs:
 
       # Step 4: Deploy your application to Fly.io.
       - name: Deploy application
-        run: flyctl deploy --remote-only
+        run: flyctl deploy
