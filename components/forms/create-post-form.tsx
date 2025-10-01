@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function CreatePostForm() {
+
   const [formData, setFormData] = useState<PostData>({
     shortDesc: "",
     longDesc: "",
@@ -18,6 +19,7 @@ export default function CreatePostForm() {
     creator: 0,
     //    tags: [],
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -43,8 +45,13 @@ export default function CreatePostForm() {
   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await createPost(formData);
-    setFormData({ shortDesc: "", longDesc: "", isPublic: false, creator: 0, /* tags: [] */ });
+    setLoading(true);
+    try {
+      await createPost(formData);
+      setFormData({ shortDesc: "", longDesc: "", isPublic: false, creator: 0, /* tags: [] */ });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -102,9 +109,11 @@ export default function CreatePostForm() {
             <Label htmlFor="isPublic">Make this post public</Label>
           </div>
         </CardContent>
-        <CardFooter className="justify-end">
-          <Button type="submit">Create Post</Button>
-        </CardFooter>
+          <CardFooter className="justify-end">
+            <Button type="submit" disabled={loading} aria-disabled={loading}>
+              {loading ? "Creating..." : "Create Post"}
+            </Button>
+          </CardFooter>
       </form>
     </Card>
   );
