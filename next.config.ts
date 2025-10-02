@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/storage/v1/object/public/**', // Allows access to all public files in storage
       },
+
+      // for local stuff
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '54321',
+        pathname: '/storage/v1/object/public/**',
+      },
     ],
   },
   experimental: {
