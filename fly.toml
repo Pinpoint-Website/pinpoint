@@ -1,15 +1,15 @@
-# fly.toml app configuration file generated for pinpoint on 2025-09-16T13:42:21-06:00
+# fly.toml app configuration file generated for pinpoint-pjfjnq on 2026-05-04T18:37:34Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'pinpoint'
-primary_region = 'lax'
+app = 'pinpoint-pjfjnq'
+primary_region = 'dfw'
 
 [build]
 
 [http_service]
-  internal_port = 3000
+  internal_port = 8080
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
