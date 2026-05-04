@@ -5,9 +5,15 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'gywxtuphgruwdnaubfag.supabase.co', // Hostname from your error message
+        hostname: 'gywxtuphgruwdnaubfag.supabase.co', // Hostname used previously
         port: '',
         pathname: '/storage/v1/object/public/**', // Allows access to all public files in storage
+      },
+      {
+        protocol: 'https',
+        hostname: 'cbyqeghugyeljwbrchbq.supabase.co', // Additional Supabase project hostname (production)
+        port: '',
+        pathname: '/storage/v1/object/public/**',
       },
     ],
   },
